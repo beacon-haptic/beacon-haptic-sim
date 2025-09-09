@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, View, Text, TextInput, Button } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
+import { Button, SafeAreaView, Text, TextInput, View } from "react-native";
 
 export default function Settings() {
   const [stop, setStop] = useState("5.0");
@@ -30,9 +30,9 @@ export default function Settings() {
       nearInt: parseInt(nearInt), nearGap: parseInt(nearGap)
     };
     await AsyncStorage.setItem("thresholds.v2", JSON.stringify(data));
-    // Homeë§Ç™èEÇ¶ÇÈÇÊÇ§Ç…ÉOÉçÅ[ÉoÉãÇ…íuÇ≠Åiä»à’Åj
+    // HomeÂÅ¥„ÅåÊãæ„Åà„Çã„Çà„ÅÜ„Å´„Ç∞„É≠„Éº„Éê„É´„Å´ÁΩÆ„ÅèÔºàÁ∞°ÊòìÔºâ
     (globalThis as any).__beaconThresholds = data;
-    alert("ï€ë∂ÇµÇ‹ÇµÇΩÅBHomeÉ^ÉuÇ≈îΩâfÇ≥ÇÍÇ‹Ç∑ÅB");
+    alert("‰øùÂ≠ò„Åó„Åæ„Åó„Åü„ÄÇHome„Çø„Éñ„ÅßÂèçÊò†„Åï„Çå„Åæ„Åô„ÄÇ");
   };
 
   const Field = ({label, value, set}:{label:string; value:string; set:(v:string)=>void})=>(
@@ -45,17 +45,18 @@ export default function Settings() {
 
   return (
     <SafeAreaView style={{flex:1, padding:16, gap:12, backgroundColor:"#fff"}}>
-      <Text style={{fontSize:20, fontWeight:"700"}}>ê›íË</Text>
+      
       <View style={{gap:12}}>
-        <Field label="í‚é~ÇµÇ´Ç¢ÅimÅj" value={stop} set={setStop} />
-        <Field label="âì minÅimÅj" value={far} set={setFar} />
-        <Field label="íÜ minÅimÅj" value={mid} set={setMid} />
-        <Field label="âìÉCÉìÉ^Å[ÉoÉãÅimsÅj" value={farInt} set={setFarInt} />
-        <Field label="íÜÉCÉìÉ^Å[ÉoÉãÅimsÅj" value={midInt} set={setMidInt} />
-        <Field label="ãﬂÉCÉìÉ^Å[ÉoÉãÅimsÅj" value={nearInt} set={setNearInt} />
-        <Field label="ãﬂéOòAë≈ÇÃä‘äuÅimsÅj" value={nearGap} set={setNearGap} />
-        <Button title="ï€ë∂" onPress={save} />
+        <Field label="ÂÅúÊ≠¢„Åó„Åç„ÅÑÔºàmÔºâ" value={stop} set={setStop} />
+        <Field label="ÈÅ† minÔºàmÔºâ" value={far} set={setFar} />
+        <Field label="‰∏≠ minÔºàmÔºâ" value={mid} set={setMid} />
+        <Field label="ÈÅ†„Ç§„É≥„Çø„Éº„Éê„É´ÔºàmsÔºâ" value={farInt} set={setFarInt} />
+        <Field label="‰∏≠„Ç§„É≥„Çø„Éº„Éê„É´ÔºàmsÔºâ" value={midInt} set={setMidInt} />
+        <Field label="Ëøë„Ç§„É≥„Çø„Éº„Éê„É´ÔºàmsÔºâ" value={nearInt} set={setNearInt} />
+        <Field label="Ëøë‰∏âÈÄ£Êâì„ÅÆÈñìÈöîÔºàmsÔºâ" value={nearGap} set={setNearGap} />
+        <Button title="‰øùÂ≠ò" onPress={save} />
       </View>
     </SafeAreaView>
   );
 }
+
