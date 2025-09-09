@@ -1,3 +1,49 @@
+
+## 📝 各ファイル・フォルダの役割
+
+- **app/**  
+  アプリの本体コード。画面ごとのコンポーネントをここに配置。  
+  `app/(tabs)/index.tsx` がトップ画面（Home）になる。
+
+- **assets/**  
+  アプリで使う画像やアイコン類。`app.json` で参照される `icon.png` と `splash.png` は必須。
+
+- **components/**  
+  UI 部品（テンプレートに含まれるもの）。未使用なら削除してもOK。
+
+- **constants/**  
+  共通で使う定数（色設定など）。未使用なら削除してもOK。
+
+- **hooks/**  
+  独自のカスタムフック。テンプレのままなら未使用。
+
+- **scripts/**  
+  開発補助スクリプト。Expo テンプレの `reset-project.js` が入っている。
+
+- **.gitignore**  
+  Git に含めないファイルを指定。`node_modules/` や `.expo/` を除外。
+
+- **app.json**  
+  Expo の設定ファイル。アプリ名、アイコン、スプラッシュ画面などを定義。
+
+- **package.json**  
+  プロジェクトの依存関係一覧と `npm run start` などのスクリプト定義。
+
+- **package-lock.json**  
+  依存ライブラリの正確なバージョンを固定。基本的に自動生成。
+
+- **tsconfig.json**  
+  TypeScript の設定。型チェックやビルド対象を制御。
+
+- **eslint.config.js**  
+  コードの書き方を統一するためのルール定義。
+
+- **README.md**  
+  プロジェクトの説明書。セットアップ方法やフォルダ構成を記載。
+
+---
+
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
