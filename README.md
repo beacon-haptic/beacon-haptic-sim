@@ -1,3 +1,29 @@
+## 🚀 他の人がこのプロジェクトを動かす方法
+
+### 1. 必要なソフトをインストール
+- [Node.js LTS (推奨: 18 以上)](https://nodejs.org/ja)  
+- [Git for Windows](https://git-scm.com/download/win)  
+  （インストール時に *PATH に追加* を選択）  
+- スマホに [Expo Go](https://expo.dev/client) アプリをインストール  
+  - iPhone → App Store から「Expo Go」  
+  - Android → Google Play から「Expo Go」  
+
+---
+
+### 2. プロジェクトをダウンロード
+```bash
+git clone https://github.com/ChibaYukiya/beacon-haptic-sim.git
+cd beacon-haptic-sim
+
+3. 依存ライブラリをインストール
+npm install
+npx expo install expo-haptics expo-speech @react-native-async-storage/async-storage @react-native-community/slider
+
+4. 開発サーバーを起動
+npx expo start --tunnel
+黒い画面に QR コードが出ます
+スマホの Expo Go アプリで QR を読み取る とアプリが起動します
+
 
 ## 📝 各ファイル・フォルダの役割
 
