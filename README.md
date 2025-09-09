@@ -20,6 +20,7 @@ npm install
 npx expo install expo-haptics expo-speech @react-native-async-storage/async-storage @react-native-community/slider
 
 4. 開発サーバーを起動
+cd C:\Users\自分のファイル名\beacon-haptic-sim
 npx expo start --tunnel
 黒い画面に QR コードが出ます
 スマホの Expo Go アプリで QR を読み取る とアプリが起動します
