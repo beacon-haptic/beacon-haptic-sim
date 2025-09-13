@@ -8,24 +8,11 @@
 </head>
 <body>
   <header>
-    <button id="toggleButton">🔍</button>
-
-    <!-- 検索フォーム -->
-    <form id="searchForm">
+    <form>
       <label for="search">検索：</label>
-      <input type="text" id="search" name="q" placeholder="キーワードを入力">
-      <button type="submit">検索</button>
+      <input type="text" id="serch" name="q" placeholder="キーワードを入力">
+      <button type="submit">🔍</button>
     </form>
   </header>
-  <script>
-    const toggleButton = document.getElementById('toggleButton');
-    const searchForm = document.getElementById('searchForm');
-
-    toggleButton.addEventListener('click', () => {
-      // 表示・非表示を切り替え
-      searchForm.classList.toggle('visible');
-    });
-  </script>
-
 </body>
 </html>
