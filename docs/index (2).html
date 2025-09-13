@@ -14,11 +14,13 @@
       <input type="text" id="serch" name="q" placeholder="キーワードを入力">
     </form>
     <button onclick="showContent()" id="show-search-button">🔍 検索</button>
+    <button onclick="showContent()" id="show-back-button">戻る</button>
   </header>
   <script>
     function showContent() {
       document.getElementById('hidden-content').style.display = 'block';
       document.getElementById('show-search-button').style.display = 'none';
+      document.getElementById('show-back-button').style.display = 'block';
       const showButton = document.getElementById('show-search-button');
     }
   </script>
