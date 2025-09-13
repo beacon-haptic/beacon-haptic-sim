@@ -16,6 +16,11 @@ header{
     margin-top: 10px;
     margin-bottom: 30px;
     font-size: 80px;
+    background-color: #c4c5c4e6; 
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 #show-back-button{
