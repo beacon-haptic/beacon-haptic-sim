@@ -8,10 +8,12 @@ header{
 #hidden-content{
     display: none;
     width: 400px;
+    height: 150px;
     margin-top: 10px;
     margin-bottom: 0px;
     border: 1px solid #c4c5c400;
     background-color: #c4c5c400;
+    font-size: 50px;
 }
 
 #show-search-button{
