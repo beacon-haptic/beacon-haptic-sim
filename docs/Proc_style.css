@@ -9,6 +9,10 @@ h1,form{
     background-color: #f9f9f9;
 }
 
+show-search-button{
+    padding-top: 10px;
+}
+
 #show-back-button{
     display: none;
 }
