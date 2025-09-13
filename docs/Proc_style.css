@@ -25,12 +25,12 @@ button{
 }
 
 #needle {
-    width: 4px;
-    height: 100px;
+    width: 2px;
+    height: 25px;
     background: red;
     position: absolute;
-    top: 50px;
-    left: 98px;
+    top: 13px;
+    left: 24px;
     transform-origin: bottom center;
     transition: transform 0.2s ease;
 }
