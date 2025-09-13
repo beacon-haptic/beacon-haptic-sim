@@ -10,15 +10,15 @@ header{
     margin-top: 10px;
     padding: 10px;
     margin-bottom: 0px;
-    border: 1px solid #c4c5c4e6;
-    background-color: #c4c5c4e6;
+    border: 1px solid #c4c5c400;
+    background-color: #c4c5c400;
 }
 
 #show-search-button{
     margin-top: 10px;
     margin-bottom: 30px;
     font-size: 80px;
-    background-color: #606160e6; 
+    background-color: #60616000; 
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
