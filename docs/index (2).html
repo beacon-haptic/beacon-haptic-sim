@@ -15,8 +15,17 @@
     </form>
     <button onclick="showContent()" id="show-search-button">🔍 検索</button>
     <button onclick="showbackContent()" id="show-back-button">戻る</button>
+
+    <h2 style="text-align:center;">簡易方位磁石</h2>
+
+    <div id="compass">
+      <div id="needle"></div>
+    </div>
+
+
   </header>
   <script>
+    //#検索項目の表示非表示の切り替え
     function showContent() {
       document.getElementById('hidden-content').style.display = 'block';
       document.getElementById('show-search-button').style.display = 'none';
@@ -29,6 +38,24 @@
       document.getElementById('show-back-button').style.display = 'none';
       const showButton = document.getElementById('show-back-button');
     }
+
+      // センサーイベントを使用して方角を取得（モバイルのみ対応）
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+    window.addEventListener('deviceorientation', handleOrientation, true);
+  } else {
+    alert("このブラウザでは方位センサーはサポートされていません。");
+  }
+
+  function handleOrientation(event) {
+    const alpha = event.alpha;
+
+    if (alpha !== null) {
+      const needle = document.getElementById('needle');
+      // 矢印を回転（北を指す）
+      needle.style.transform = `rotate(${-alpha}deg)`;
+    }
+  }
   </script>
 </body>
 </html>

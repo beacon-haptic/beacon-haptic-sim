@@ -13,3 +13,24 @@
 button{
     margin-left: auto;
 }
+
+#compass {
+    width: 200px;
+    height: 200px;
+    border: 5px solid #333;
+    border-radius: 50%;
+    margin: 50px auto;
+    position: relative;
+    background: #f8f8f8;
+}
+
+#needle {
+    width: 4px;
+    height: 100px;
+    background: red;
+    position: absolute;
+    top: 50px;
+    left: 98px;
+    transform-origin: bottom center;
+    transition: transform 0.2s ease;
+}
