@@ -9,25 +9,26 @@
 </head>
 <body>
   <header>
-   <h1>
+   
     <form id="hidden-content">
       <label for="search">検索：</label>
       <input type="text" id="serch" name="q" placeholder="キーワードを入力"><button onclick="showbackContent()" id="show-back-button">戻る</button>
     </form>
-    <button onclick="showContent()" id="show-search-button">🔍 検索</button>
-  </h1> 
-
+    <button onclick="showContent()" id="show-search-button">🔍</button> 
   </header>
 
 
   <script>
-    //#検索項目の表示非表示の切り替え
+    ///以下検索項目の表示非表示の切り替え
+
+    //検索ボタンを押した時、検索項目と戻るボタンの表示・元々あった検索ボタンの非表示
     function showContent() {
       document.getElementById('hidden-content').style.display = 'block';
       document.getElementById('show-search-button').style.display = 'none';
       document.getElementById('show-back-button').style.display = 'block';
       const showButton = document.getElementById('show-search-button');
     }
+    //戻るボタンを押した時、検索項目と戻るボタンの非表示・元々あった検索ボタンの表示
     function showbackContent() {
       document.getElementById('hidden-content').style.display = 'none';
       document.getElementById('show-search-button').style.display = 'block';
