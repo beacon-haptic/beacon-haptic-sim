@@ -15,6 +15,7 @@ header{
 }
 
 #show-search-button{
+    margin-left: auto;
     margin-top: 10px;
     margin-bottom: 30px;
     font-size: 80px;
@@ -27,10 +28,10 @@ header{
 
 #show-back-button{
     display: none;
+
 }
 
 button{
-    margin-left: auto;
     display: flex;
 }
 
