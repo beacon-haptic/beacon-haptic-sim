@@ -15,5 +15,6 @@ h1{
 
 button{
     margin-left: auto;
+    display: flex;
 }
 
