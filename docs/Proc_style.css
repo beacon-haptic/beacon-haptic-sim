@@ -9,3 +9,7 @@
 #show-back-button{
     display: none;
 }
+
+button{
+    margin-left: auto;
+}
