@@ -13,11 +13,12 @@
       <label for="search">検索：</label>
       <input type="text" id="serch" name="q" placeholder="キーワードを入力">
     </form>
-    <button onclick="showContent()">🔍</button>
+    <button id="show-search-button">🔍 検索</button>
   </header>
   <script>
     function showContent() {
       document.getElementById('hidden-content').style.display = 'block';
+      const showButton = document.getElementById('show-search-button');
     }
   </script>
 </body>
