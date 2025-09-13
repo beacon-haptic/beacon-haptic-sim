@@ -10,6 +10,6 @@
     display: none;
 }
 
-form,button{
+label,input,button{
     margin-left: auto;
 }
