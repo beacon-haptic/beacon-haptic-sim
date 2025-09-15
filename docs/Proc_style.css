@@ -31,7 +31,7 @@ header{
 }
 
 #site-title {
-  color: white;         /* 文字色 */
+  color: ff0000;         /* 文字色 */
   font-size: 60px;      /* 大きさ */
   margin-left: 500px;    /* 左に余白 */
   margin-right: auto;   /* 右に広がるスペースを取る（flexでロゴと並ぶ時に左寄せされる） */
@@ -52,6 +52,7 @@ header{
 button{
     display: flex;
 }
+
 
 
 
