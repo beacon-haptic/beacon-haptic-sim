@@ -2,7 +2,7 @@ header{
     display: flex;
     justify-content: flex-end;
     height: 200px;
-    background-color: #606160e6;
+    background-color: #0000cd;
     padding-top: 20px;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
@@ -38,4 +38,5 @@ header{
 button{
     display: flex;
 }
+
 
