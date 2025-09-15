@@ -33,7 +33,6 @@ header{
 
 #img1 {
     height: 50px;  
-    width: 50px;
     margin-right: auto; 
     margin-left: 20px; 
 }
@@ -46,6 +45,7 @@ header{
 button{
     display: flex;
 }
+
 
 
 
