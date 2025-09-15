@@ -9,7 +9,7 @@ header{
     
 }
 
-#site-title{
+.site-title{
   text-align: center;   /* 中央寄せ */
   font-size: 48px;      /* 大きさ */
   color: navy;          /* 文字色 */
