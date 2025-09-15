@@ -7,6 +7,12 @@ header{
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
 }
+#site-title {
+  color: white;
+  font-size: 40px;
+  margin: 0 auto;
+}
+
 #hidden-content{
     display: none;
     width: 500px;
@@ -30,14 +36,6 @@ header{
     cursor: pointer;
 }
 
-#site-title {
-  color: ff0000;         /* 文字色 */
-  font-size: 60px;      /* 大きさ */
-  margin-left: 500px;    /* 左に余白 */
-  margin-right: auto;   /* 右に広がるスペースを取る（flexでロゴと並ぶ時に左寄せされる） */
-}
-
-
 #img1 {
     height: 50px;  
     margin-right: auto; 
@@ -52,6 +50,7 @@ header{
 button{
     display: flex;
 }
+
 
 
 
