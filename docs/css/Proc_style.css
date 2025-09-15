@@ -60,6 +60,12 @@ button{
   cursor: pointer;
 }
 
+#img {
+    height: 50px;  
+    margin-right: auto; 
+    margin-left: 20px; 
+}
+
 /* サイドバー初期スタイル（非表示状態） */
 .sidebar {
   position: fixed;
