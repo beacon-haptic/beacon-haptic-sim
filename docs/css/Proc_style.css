@@ -8,10 +8,11 @@ header{
     border-bottom-right-radius: 40px;
     
 }
+
 #site-title {
-  　color: white;
-  　font-size: 40px;
-  　margin: 0 auto;
+    color: white;
+    font-size: 50px;
+    margin: 0 auto;
 }
 
 #hidden-content{
