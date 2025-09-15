@@ -9,10 +9,10 @@ header{
     
 }
 
-#site-title {
-    color: white;
-    font-size: 50px;
-    margin: 0 auto;
+#site-title{
+  text-align: center;   /* 中央寄せ */
+  font-size: 48px;      /* 大きさ */
+  color: navy;          /* 文字色 */
 }
 
 #hidden-content{
