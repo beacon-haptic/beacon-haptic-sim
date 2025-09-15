@@ -30,6 +30,13 @@ header{
     cursor: pointer;
 }
 
+
+#img1 {
+    height: 200px;  
+    margin-right: auto; 
+    margin-left: 20px; 
+}
+
 #show-back-button{
     display: none;
 
@@ -38,5 +45,6 @@ header{
 button{
     display: flex;
 }
+
 
 
