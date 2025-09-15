@@ -30,7 +30,7 @@ header{
     cursor: pointer;
 }
 
-site.title {
+#site.title {
   color: white;         /* 文字色 */
   font-size: 60px;      /* 大きさ */
   margin-left: 500px;    /* 左に余白 */
@@ -52,6 +52,7 @@ site.title {
 button{
     display: flex;
 }
+
 
 
 
