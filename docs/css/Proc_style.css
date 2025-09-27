@@ -26,6 +26,8 @@ header{
 }
 
 #show-search-button{
+    width: 150px;
+    height: 150px;
     margin-left: auto;
     margin-top: 10px;
     margin-bottom: 30px;
