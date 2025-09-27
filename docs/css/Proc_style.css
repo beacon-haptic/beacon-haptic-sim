@@ -2,7 +2,6 @@ header{
     display: flex;
     justify-content: flex-end;
     height: 200px;
-    background-color: #0000cd;
     padding-top: 20px;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
@@ -31,10 +30,10 @@ header{
     margin-top: 10px;
     margin-bottom: 30px;
     font-size: 80px;
-    background-color: #60616000; 
+    border-radius: 50%;
+    background-color: #626be6c4; 
     border: none;
     padding: 10px 20px;
-    border-radius: 4px;
     cursor: pointer;
 }
 
