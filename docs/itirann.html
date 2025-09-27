@@ -10,6 +10,19 @@
 <body>
    <header>
     <h1>商品一覧ページ</h1>
-
+    <button id="menu-toggle" class="hamburger">☰</button>
+      <nav id="sidebar" class="sidebar">
+       <ul>
+        <li><a href="index.html">ホーム</a></li>
+        <li><a href="itirann.html">商品一覧</a></li>
+        <li><a href="#">メニュー2</a></li>
+        <li><a href="#">メニュー3</a></li>
+       </ul>
+      </nav>
    </header> 
+   <script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+        document.getElementById('sidebar').classList.toggle('active');
+      });
+   </script>
 </body>
