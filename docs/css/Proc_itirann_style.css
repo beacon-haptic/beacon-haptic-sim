@@ -2,4 +2,6 @@ h1{
     text-align: center;
     border-bottom: 5px solid black;
     font-size: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
