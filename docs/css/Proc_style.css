@@ -34,8 +34,8 @@ header{
     margin-bottom: 30px;
     font-size: 39px;
     border-radius: 50%;
-    background-color: #626be6c4; 
-    border: none;
+    border: 3px solid black;
+    background-color: #f1eded; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,7 +64,7 @@ button{
   z-index: 1001;
   background: #f1eded;
   color: black;
-  border: none;
+  border: 3px solid black;
   font-size: 40px;
   cursor: pointer;
   display: flex;
@@ -99,6 +99,10 @@ button{
 /* サイドバーが開いた状態 */
 .sidebar.active {
   transform: translateX(0);
+}
+
+.hamburger.no-border {
+  border: none !important;
 }
 
 .sidebar ul {

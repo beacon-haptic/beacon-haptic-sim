@@ -52,7 +52,11 @@
       const showButton = document.getElementById('show-back-button');
     }
       document.getElementById('menu-toggle').addEventListener('click', function () {
-        document.getElementById('sidebar').classList.toggle('active');
+        const sidebar = document.getElementById('sidebar');
+        const toggleButton = document.getElementById('menu-toggle');
+
+        sidebar.classList.toggle('active');
+        toggleButton.classList.toggle('no-border');
       });
   </script>
 </body>
