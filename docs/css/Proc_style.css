@@ -51,9 +51,9 @@ button{
 
 
 .hamburger {
-  width: 60px;
-  height: 60px;
-  padding: 0; 
+  width: 80px;
+  height: 80px;
+  padding: 10px; 
   position: fixed;
   top: 10px;
   left: 10px;
@@ -63,6 +63,9 @@ button{
   border: none;
   font-size: 40px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #img {
