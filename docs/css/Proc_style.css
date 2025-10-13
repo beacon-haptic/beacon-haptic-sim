@@ -1,3 +1,8 @@
+body{
+  font-family: sans-serif;
+}
+
+
 header{
     display: flex;
     justify-content: flex-end;
@@ -8,7 +13,7 @@ header{
     
 }
 
-.h1{
+h1{
   text-align: center;   /* 中央寄せ */
   font-size: 48px;      /* 大きさ */
   color: navy;          /* 文字色 */
@@ -45,6 +50,7 @@ header{
 
 #show-back-button{
     display: none;
+    border: none;
     margin-right: 30px !important;
 
 }
