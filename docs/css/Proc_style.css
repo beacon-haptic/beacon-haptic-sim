@@ -124,3 +124,10 @@ button{
   display: block;
   margin: 10px 0;
 }
+
+@media screen and (max-width: 768px) {
+  #hidden-content {
+    margin-right: 10px;
+    font-size: 24px;
+  }
+}
