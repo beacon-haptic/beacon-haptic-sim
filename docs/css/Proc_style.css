@@ -13,19 +13,13 @@ header{
     
 }
 
-h1{
-  text-align: center;   /* 中央寄せ */
-  font-size: 48px;      /* 大きさ */
-  color: navy;          /* 文字色 */
-}
-
 #hidden-content{
     display: none;
     width: 500px;
     height: 100px;
     margin-top: 10px;
     margin-bottom: 0px;
-    margin-right: 20px;
+    margin-right: 10px;
     border: 1px solid #c4c5c400;
     background-color: #c4c5c400;
     font-size: 30px;
@@ -123,11 +117,4 @@ button{
   text-decoration: none;
   display: block;
   margin: 10px 0;
-}
-
-@media screen and (max-width: 768px) {
-  #hidden-content {
-    margin-right: 10px;
-    font-size: 24px;
-  }
 }
