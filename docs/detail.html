@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>商品詳細</title>
+  <script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHiMCeiOFN-R4EoLTiBpeJWIUQYIrUA5M",
+      authDomain: "beacon-haptic-sim.firebaseapp.com",
+      projectId: "beacon-haptic-sim",
+      storageBucket: "beacon-haptic-sim.appspot.com",
+      messagingSenderId: "699174750938",
+      appId: "1:699174750938:web:1ade40d8ef1a30c9c0b3e3",
+      measurementId: "G-4QX9T79SL7"
+    };
+
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // URLのクエリパラメータからidを取得
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    async function loadProduct() {
+      if (!id) {
+        document.getElementById('content').textContent = "商品IDが指定されていません。";
+        return;
+      }
+
+      const docRef = doc(db, "products", id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById('name').textContent = data.name || "";
+        document.getElementById('category').textContent = data.category || "";
+        document.getElementById('detail').textContent = data.detail || "";
+        if(data.image){
+          document.getElementById('image').src = data.image;
+          document.getElementById('image').alt = data.name;
+        }
+      } else {
+        document.getElementById('content').textContent = "該当する商品が見つかりませんでした。";
+      }
+    }
+
+    window.onload = loadProduct;
+  </script>
+</head>
+<body>
+  <h1 id="name"></h1>
+  <p><strong>カテゴリ:</strong> <span id="category"></span></p>
+  <img id="image" src="" alt="" style="max-width:300px;">
+  <p id="detail"></p>
+  <p id="content"></p>
+</body>
+</html>
