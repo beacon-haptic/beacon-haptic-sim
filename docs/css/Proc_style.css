@@ -121,8 +121,12 @@ button{
 
 #search{
   background-color: #ebeaea;
-  font-size: 18px !important;
+  font-size: 25px !important;
   border: none;
+  border-radius: 10px 0 0 10px;
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
   border-radius: 10px 0 0 10px;
 }
 
@@ -181,14 +185,6 @@ button{
 #hidden-content {
   display: flex;
   margin-bottom: 15px;
-}
-
-#search {
-  flex-grow: 1;
-  font-size: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 10px 0 0 10px;
 }
 
 #show-back-button {
