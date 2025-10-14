@@ -112,3 +112,8 @@ button{
   display: block;
   margin: 10px 0;
 }
+
+#search{
+  background-color: #dddada;
+  border: none;
+}
