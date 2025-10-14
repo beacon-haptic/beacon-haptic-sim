@@ -27,7 +27,7 @@
     <button onclick="showContent()" id="show-search-button">🔍</button>
 
   </header>
-
+<div id="search-results" class="container mt-4 row"></div>
   <main>
       <link rel="stylesheet" href="css/Proc_style.css">
       <img id="img" src="picture/map_open.png" alt="画像1">
@@ -59,5 +59,84 @@
         toggleButton.classList.toggle('no-border');
       });
   </script>
+
+  <script type="module">
+  import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+  // Firebase設定
+  const firebaseConfig = {
+    apiKey: "AIzaSyAHiMCeiOFN-R4EoLTiBpeJWIUQYIrUA5M",
+    authDomain: "beacon-haptic-sim.firebaseapp.com",
+    projectId: "beacon-haptic-sim",
+    storageBucket: "beacon-haptic-sim.appspot.com",
+    messagingSenderId: "699174750938",
+    appId: "1:699174750938:web:1ade40d8ef1a30c9c0b3e3",
+    measurementId: "G-4QX9T79SL7"
+  };
+
+  // Firebase 初期化
+  const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 🔍 検索実行イベント
+  document.getElementById('search').addEventListener('keydown', async (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();  // フォーム送信防止
+      const keyword = event.target.value.trim();
+      if (keyword !== "") {
+        await searchItems(keyword);
+      }
+    }
+  });
+
+  // 🔍 検索ロジック
+  async function searchItems(keyword) {
+    const resultsContainer = document.getElementById('search-results');
+    resultsContainer.innerHTML = ""; // クリア
+
+    const snapshot = await getDocs(collection(db, "items"));
+    let found = 0;
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const { name, category, detail, tag, image } = data;
+
+      const keywordLower = keyword.toLowerCase();
+
+      // 条件：部分一致 or タグ一致
+      const matches =
+        (name && name.includes(keyword)) ||
+        (category && category.includes(keyword)) ||
+        (detail && detail.includes(keyword)) ||
+        (Array.isArray(tag) && tag.some(t => t.includes(keyword)));
+
+      if (matches) {
+        found++;
+
+        // HTMLカード生成
+        const cardHTML = `
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <img src="${image}" class="card-img-top" alt="${name}">
+              <div class="card-body">
+                <h5 class="card-title">${name}</h5>
+                <p class="card-text">${detail}</p>
+                <p class="card-text"><small class="text-muted">${category}</small></p>
+                <p class="card-text"><small class="text-muted">タグ: ${tag.join(', ')}</small></p>
+              </div>
+            </div>
+          </div>
+        `;
+        resultsContainer.innerHTML += cardHTML;
+      }
+    });
+
+    if (found === 0) {
+      resultsContainer.innerHTML = `<p>該当する商品が見つかりませんでした。</p>`;
+    }
+  }
+</script>
+
 </body>
 </html>
