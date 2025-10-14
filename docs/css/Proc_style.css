@@ -41,8 +41,11 @@ header{
     display: none;
     border: none;
     margin-right: 30px !important;
+    font-size: 65px;
+    color: white;
     width: 100px;
     border-radius: 0 10px 10px 0;
+    background-color: rgb(170, 168, 168);
 }
 
 button{
@@ -115,7 +118,7 @@ button{
 }
 
 #search{
-  background-color: #dddada;
+  background-color: #ebeaea;
   border: none;
   border-radius: 10px 0 0 10px;
 }
