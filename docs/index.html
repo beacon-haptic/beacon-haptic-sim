@@ -27,7 +27,7 @@
     <button onclick="showContent()" id="show-search-button">🔍</button>
 
   </header>
-<div id="search-results" class="container mt-4 row"></div>
+
   <main>
       <link rel="stylesheet" href="css/Proc_style.css">
       <img id="img" src="picture/map_open.png" alt="画像1">
@@ -119,20 +119,15 @@
         found++;
 
         // HTMLカード生成
-        const cardHTML = `
-          <div class="col-md-4 mb-4">
-            <div class="card">
-              <img src="${image}" class="card-img-top" alt="${name}">
-              <div class="card-body">
-                <h5 class="card-title">${name}</h5>
-                <p class="card-text">${detail}</p>
-                <p class="card-text"><small class="text-muted">${category}</small></p>
-                <p class="card-text"><small class="text-muted">タグ: ${Array.isArray(tag) ? tag.join(', ') : 'なし'}</small></p>
-              </div>
+        const itemHTML = `
+          <div class="search-item">
+            <div class="search-info">
+              <h5 class="item-name">${name}</h5>
+              <p class="item-category">${category}</p>
             </div>
           </div>
         `;
-        resultsContainer.innerHTML += cardHTML;
+        resultsContainer.innerHTML += itemHTML;
       }
     });
 
