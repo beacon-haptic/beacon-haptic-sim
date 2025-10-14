@@ -42,7 +42,7 @@ header{
     border: none;
     margin-right: 30px !important;
     width: 100px;
-
+    border-radius: 0 10px 10px 0;
 }
 
 button{
@@ -117,4 +117,5 @@ button{
 #search{
   background-color: #dddada;
   border: none;
+  border-radius: 10px 0 0 10px;
 }
