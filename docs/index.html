@@ -95,7 +95,7 @@
     const resultsContainer = document.getElementById('search-results');
     resultsContainer.innerHTML = ""; // クリア
 
-    const snapshot = await getDocs(collection(db, "items"));
+    const snapshot = await getDocs(collection(db, "products"));
     let found = 0;
 
     snapshot.forEach(doc => {
@@ -123,7 +123,7 @@
                 <h5 class="card-title">${name}</h5>
                 <p class="card-text">${detail}</p>
                 <p class="card-text"><small class="text-muted">${category}</small></p>
-                <p class="card-text"><small class="text-muted">タグ: ${tag.join(', ')}</small></p>
+                <p class="card-text"><small class="text-muted">タグ: ${Array.isArray(tag) ? tag.join(', ') : 'なし'}</small></p>
               </div>
             </div>
           </div>
@@ -136,6 +136,21 @@
       resultsContainer.innerHTML = `<p>該当する商品が見つかりませんでした。</p>`;
     }
   }
+
+  document.getElementById('search').addEventListener('keydown', async (event) => {
+  console.log("🔍 キーが押されました:", event.key);  // ← 追跡ポイント①
+
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    const keyword = event.target.value.trim();
+    console.log("✨ 検索ワード:", keyword);  // ← 追跡ポイント②
+
+    if (keyword !== "") {
+      await searchItems(keyword);
+    }
+  }
+});
+
 </script>
 
 </body>
