@@ -78,6 +78,10 @@
   // Firebase 初期化
   const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  document.getElementById('hidden-content').addEventListener('submit', (event) => {
+  event.preventDefault();  // フォーム送信を阻止
+});
+
 
   // 🔍 検索実行イベント
   document.getElementById('search').addEventListener('keydown', async (event) => {
@@ -136,20 +140,6 @@
       resultsContainer.innerHTML = `<p>該当する商品が見つかりませんでした。</p>`;
     }
   }
-
-  document.getElementById('search').addEventListener('keydown', async (event) => {
-  console.log("🔍 キーが押されました:", event.key);  // ← 追跡ポイント①
-
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    const keyword = event.target.value.trim();
-    console.log("✨ 検索ワード:", keyword);  // ← 追跡ポイント②
-
-    if (keyword !== "") {
-      await searchItems(keyword);
-    }
-  }
-});
 
 </script>
 
