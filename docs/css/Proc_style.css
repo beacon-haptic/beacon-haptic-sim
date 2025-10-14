@@ -119,3 +119,8 @@ button{
   border: none;
   border-radius: 10px 0 0 10px;
 }
+
+#search:focus {
+  outline: none;
+  /* 必要に応じてボーダーの色やシャドウも調整可能 */
+}
