@@ -46,6 +46,8 @@ header{
     width: 100px;
     border-radius: 0 10px 10px 0;
     background-color: rgb(170, 168, 168);
+    position: relative;
+    z-index: 1110; 
 }
 
 button{
@@ -150,5 +152,83 @@ button{
   margin-top: 10px;
   padding: 0 20px;
 }
+
+/* 検索パネル初期は画面外右側に隠す */
+#search-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50vw;          /* 画面幅の半分 */
+  height: 100vh;
+  background-color: #f0f0f0cc; /* 薄いグレー + 半透明 */
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  transform: translateX(100%); /* 画面外右に隠す */
+  transition: transform 0.3s ease;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* 表示時 */
+#search-panel.active {
+  transform: translateX(0);
+}
+
+/* フォーム内スタイル調整 */
+#hidden-content {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+#search {
+  flex-grow: 1;
+  font-size: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px 0 0 10px;
+}
+
+#show-back-button {
+  font-size: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  border-radius: 0 10px 10px 0;
+  padding: 0 15px;
+  transition: color 0.3s;
+}
+
+#show-back-button:hover {
+  color: #000;
+}
+
+/* 検索結果 */
+.search-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  transition: background-color 0.2s;
+}
+
+.search-item:hover {
+  background-color: #e0e0e0;
+}
+
+.item-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.item-category {
+  color: #666;
+  font-size: 14px;
+}
+
 
 

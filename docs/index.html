@@ -19,15 +19,23 @@
       <li><a href="#">メニュー3</a></li>
      </ul>
     </nav>
+
+    <button onclick="showContent()" id="show-search-button">🔍</button>
+  <div id="search-panel">
     <form id="hidden-content">
       <label for="search"></label>
       <input type="text" id="search" name="q" placeholder="キーワードを入力">
-      <button onclick="showbackContent()" id="show-back-button">×</button>
+      <button type="button" onclick="showbackContent()" id="show-back-button">×</button>
     </form>
-    <button onclick="showContent()" id="show-search-button">🔍</button>
+    <div id="search-results" class="container mt-4 row"></div>
+  </div>
+  
 
   </header>
-<div id="search-results" class="container mt-4 row"></div>
+
+
+
+
   <main>
       <link rel="stylesheet" href="css/Proc_style.css">
       <img id="img" src="picture/map_open.png" alt="画像1">
@@ -42,6 +50,8 @@
       document.getElementById('hidden-content').style.display = 'flex';
       document.getElementById('show-search-button').style.display = 'none';
       document.getElementById('show-back-button').style.display = 'block';
+      document.getElementById('search-panel').classList.add('active');
+      document.getElementById('search').focus();
       const showButton = document.getElementById('show-search-button');
     }
     //戻るボタンを押した時、検索項目と戻るボタンの非表示・元々あった検索ボタンの表示
@@ -49,6 +59,10 @@
       document.getElementById('hidden-content').style.display = 'none';
       document.getElementById('show-search-button').style.display = 'block';
       document.getElementById('show-back-button').style.display = 'none';
+      document.getElementById('search-panel').classList.remove('active');
+      document.getElementById('search-results').innerHTML = "";
+      document.getElementById('search').value = "";
+
       const showButton = document.getElementById('show-back-button');
     }
       document.getElementById('menu-toggle').addEventListener('click', function () {
@@ -121,7 +135,7 @@
         // HTMLカード生成
         const itemHTML = `
           <div class="search-item">
-            <a href="detail.html?id=${doc.id}" class="search-link">
+            <a href="detail.html?id=${doc.id}" class="search-link" style="text-decoration:none; color:inherit;">
               <h5 class="item-name">${name}</h5>
               <p class="item-category">${category}</p>
             </div>
