@@ -22,11 +22,11 @@
 
     <button onclick="showContent()" id="show-search-button">🔍</button>
   <div id="search-panel">
-    <form id="hidden-content">
+    <div id="hidden-content">
       <label for="search"></label>
       <input type="text" id="search" name="q" placeholder="キーワードを入力">
       <button type="button" onclick="showbackContent()" id="show-back-button">×</button>
-    </form>
+    </div>
     <div id="search-results" class="container mt-4 row"></div>
   </div>
   
@@ -98,15 +98,23 @@
 
 
   // 🔍 検索実行イベント
-  document.getElementById('search').addEventListener('keydown', async (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();  // フォーム送信防止
-      const keyword = event.target.value.trim();
+  let debounceTimer; // ← グローバル変数として宣言
+
+  document.getElementById('search').addEventListener('input', (event) => {
+    const keyword = event.target.value.trim();
+
+    clearTimeout(debounceTimer); // 前のタイマーをキャンセル
+
+    debounceTimer = setTimeout(() => {
       if (keyword !== "") {
-        await searchItems(keyword);
+        searchItems(keyword);
+      } else {
+        document.getElementById('search-results').innerHTML = "";
       }
-    }
+    }, 300); // ← 300ms後に検索実行（この数値は調整可能）
   });
+
+
 
   // 🔍 検索ロジック
   async function searchItems(keyword) {
