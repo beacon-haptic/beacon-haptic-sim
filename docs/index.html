@@ -42,6 +42,10 @@
   </main>
 
 
+<script src="kuromoji.js-master/build/kuromoji.js"></script>
+
+
+
   <script>
     ///以下検索項目の表示非表示の切り替え
 
@@ -74,10 +78,11 @@
       });
   </script>
 
-  <script type="module">
-  import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+<!-- Firebase互換版の読み込み -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
+<script>
   // Firebase設定
   const firebaseConfig = {
     apiKey: "AIzaSyAHiMCeiOFN-R4EoLTiBpeJWIUQYIrUA5M",
@@ -89,76 +94,87 @@
     measurementId: "G-4QX9T79SL7"
   };
 
-  // Firebase 初期化
-  const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  // Firebase初期化
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // フォーム送信防止（不要かもしれませんが）
   document.getElementById('hidden-content').addEventListener('submit', (event) => {
-  event.preventDefault();  // フォーム送信を阻止
-});
-
-
-  // 🔍 検索実行イベント
-  let debounceTimer; // ← グローバル変数として宣言
-
-  document.getElementById('search').addEventListener('input', (event) => {
-    const keyword = event.target.value.trim();
-
-    clearTimeout(debounceTimer); // 前のタイマーをキャンセル
-
-    debounceTimer = setTimeout(() => {
-      if (keyword !== "") {
-        searchItems(keyword);
-      } else {
-        document.getElementById('search-results').innerHTML = "";
-      }
-    }, 300); // ← 300ms後に検索実行（この数値は調整可能）
+    event.preventDefault();
   });
 
+  // kuromojiトークナイザーを用意
+  let tokenizer;
+  kuromoji.builder({ dicPath: "https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict/" }).build(function(err, _tokenizer) {
+    if(err) {
+      console.error("kuromoji build error:", err);
+      return;
+    }
+    tokenizer = _tokenizer;
+  });
 
+  // デバウンス用タイマー
+  let debounceTimer;
 
-  // 🔍 検索ロジック
-  async function searchItems(keyword) {
+  document.getElementById('search').addEventListener('input', function(event) {
+    const keyword = event.target.value.trim();
+
+    clearTimeout(debounceTimer);
+
+    debounceTimer = setTimeout(() => {
+      if(keyword === "") {
+        document.getElementById('search-results').innerHTML = "";
+        return;
+      }
+
+      if(!tokenizer) {
+        // tokenizerがまだ準備できてなければ処理しない
+        return;
+      }
+
+      // kuromojiで形態素解析
+      const tokens = tokenizer.tokenize(keyword);
+      const words = tokens.map(token => token.surface_form.toLowerCase());
+
+      searchItems(words);
+    }, 300);
+  });
+
+  async function searchItems(words) {
     const resultsContainer = document.getElementById('search-results');
-    resultsContainer.innerHTML = ""; // クリア
+    resultsContainer.innerHTML = "";
 
-    const snapshot = await getDocs(collection(db, "products"));
+    const snapshot = await db.collection("products").get();
+
     let found = 0;
-
     snapshot.forEach(doc => {
       const data = doc.data();
-      const { name, category, detail, tags, image } = data;
 
-      const keywordLower = keyword.toLowerCase();
+      // 検索対象テキストを結合し小文字化
+      const text = `${data.name || ""} ${data.category || ""} ${data.detail || ""} ${(data.tags || []).join(" ")}`.toLowerCase();
 
-      // 条件：部分一致 or タグ一致
-      const matches =
-        (name && name.includes(keyword)) ||
-        (category && category.includes(keyword)) ||
-        (detail && detail.includes(keyword)) ||
-        (Array.isArray(tags) && tags.some(t => t.includes(keyword)));
+      // words のすべての単語が含まれるか
+      const matched = words.every(w => text.includes(w));
 
-      if (matches) {
+      if(matched) {
         found++;
-
-        // HTMLカード生成
-        const itemHTML = `
+        resultsContainer.innerHTML += `
           <div class="search-item">
-            <a href="detail.html?id=${doc.id}" class="search-link" style="text-decoration:none; color:inherit;">
-              <h5 class="item-name">${name}</h5>
-              <p class="item-category">${category}</p>
-            </div>
+            <a href="detail.html?id=${doc.id}" style="text-decoration:none; color:inherit;">
+              <h5 class="item-name">${data.name}</h5>
+              <p class="item-category">${data.category}</p>
+            </a>
           </div>
         `;
-        resultsContainer.innerHTML += itemHTML;
       }
     });
 
-    if (found === 0) {
+    if(found === 0) {
       resultsContainer.innerHTML = `<p>該当する商品が見つかりませんでした。</p>`;
     }
   }
-
 </script>
+
 
 </body>
 </html>
