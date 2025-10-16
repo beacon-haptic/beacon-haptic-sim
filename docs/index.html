@@ -42,7 +42,7 @@
   </main>
 
 
-<script src="docs/kuromoji.js-master/kuromoji.js-master/build/kuromoji.js"></script>
+<script src="../kuromoji.js-master/kuromoji.js-master/build/kuromoji.js"></script>
 
 
 
@@ -99,17 +99,64 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
+  function expandWithSynonyms(words) {
+  const expandedSet = new Set();
+
+  words.forEach(word => {
+    expandedSet.add(word);
+    if (synonymDictionary[word]) {
+      synonymDictionary[word].forEach(syn => expandedSet.add(syn));
+    }
+  });
+
+  return Array.from(expandedSet);
+}
+
+
+  let synonymDictionary = {};  // 類義語辞書（グローバル）
+
+async function buildSynonymDictionaryFromFirebase() {
+  const snapshot = await db.collection("products").get();
+  const tagMap = {};
+
+  snapshot.forEach(doc => {
+    const tags = doc.data().tags || [];
+
+    tags.forEach(tag => {
+      if (!tagMap[tag]) tagMap[tag] = new Set();
+      tags.forEach(otherTag => {
+        if (tag !== otherTag) {
+          tagMap[tag].add(otherTag);
+        }
+      });
+    });
+  });
+
+  // Set → Array に変換
+  for (const tag in tagMap) {
+    synonymDictionary[tag] = Array.from(tagMap[tag]);
+  }
+
+  console.log("📚 類義語辞書生成完了:", synonymDictionary);
+}
+
+buildSynonymDictionaryFromFirebase(); // 実行
+
+
   // フォーム送信防止（不要かもしれませんが）
   document.getElementById('hidden-content').addEventListener('submit', (event) => {
     event.preventDefault();
   });
 
   // kuromojiトークナイザーを用意
-  kuromoji.builder({ dicPath: "/url/to/dictionary/dir/" }).build(function (err, tokenizer) {
-    // tokenizer is ready
-    var path = tokenizer.tokenize("すもももももももものうち");
+  let tokenizer = null; // ← グローバルに宣言
+
+  kuromoji.builder({ dicPath: "../kuromoji.js-master/kuromoji.js-master/dict" }).build(function (err, builtTokenizer) {
+    tokenizer = builtTokenizer; // ← グローバル変数に代入
+    const path = tokenizer.tokenize("すもももももももものうち");
     console.log(path);
   });
+
 
   // デバウンス用タイマー
   let debounceTimer;
@@ -132,10 +179,13 @@
 
       // kuromojiで形態素解析
       const tokens = tokenizer.tokenize(keyword);
-      const words = tokens.map(token => token.surface_form.toLowerCase());
+      let words = tokens.map(token => token.surface_form.toLowerCase());
+
+      words = expandWithSynonyms(words); // 追加
 
       searchItems(words);
-    }, 300);
+
+      }, 300);
   });
 
   async function searchItems(words) {
