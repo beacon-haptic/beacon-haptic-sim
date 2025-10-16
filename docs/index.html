@@ -110,12 +110,12 @@
   });
 
   return Array.from(expandedSet);
-}
+  }
 
 
   let synonymDictionary = {};  // 類義語辞書（グローバル）
 
-async function buildSynonymDictionaryFromFirebase() {
+  async function buildSynonymDictionaryFromFirebase() {
   const snapshot = await db.collection("products").get();
   const tagMap = {};
 
@@ -140,7 +140,7 @@ async function buildSynonymDictionaryFromFirebase() {
   console.log("📚 類義語辞書生成完了:", synonymDictionary);
 }
 
-buildSynonymDictionaryFromFirebase(); // 実行
+ buildSynonymDictionaryFromFirebase(); // 実行
 
 
   // フォーム送信防止（不要かもしれませんが）
@@ -152,6 +152,10 @@ buildSynonymDictionaryFromFirebase(); // 実行
   let tokenizer = null; // ← グローバルに宣言
 
   kuromoji.builder({ dicPath: "../kuromoji.js-master/kuromoji.js-master/dict" }).build(function (err, builtTokenizer) {
+    if (err) {
+    console.error("kuromoji読み込みエラー:", err);
+    return;
+  }
     tokenizer = builtTokenizer; // ← グローバル変数に代入
     const path = tokenizer.tokenize("すもももももももものうち");
     console.log(path);
@@ -194,18 +198,43 @@ buildSynonymDictionaryFromFirebase(); // 実行
 
     const snapshot = await db.collection("products").get();
 
-    let found = 0;
-    snapshot.forEach(doc => {
-      const data = doc.data();
+    let matchedItems = [];
 
-      // 検索対象テキストを結合し小文字化
-      const text = `${data.name || ""} ${data.category || ""} ${data.detail || ""} ${(data.tags || []).join(" ")}`.toLowerCase();
+ snapshot.forEach(doc => {
+  const data = doc.data();
 
-      // words のすべての単語が含まれるか
-      const matched = words.every(w => text.includes(w));
+  // 各項目を個別に小文字化
+  const name = (data.name || "").toLowerCase();
+  const category = (data.category || "").toLowerCase();
+  const detail = (data.detail || "").toLowerCase();
+  const tags = (data.tags || []).join(" ").toLowerCase();
 
-      if(matched) {
-        found++;
+  const fullText = `${name} ${category} ${detail} ${tags}`;
+
+  // 少なくとも1単語が一致しているか確認
+  const matched = words.some(w => fullText.includes(w));
+  if (!matched) return;
+
+  // スコア付け（nameに含まれている単語が多いほどスコア高く）
+  let score = 0;
+  words.forEach(w => {
+    if (name.includes(w)) score += 10;
+    if (category.includes(w)) score += 3;
+    if (detail.includes(w)) score += 1;
+    if (tags.includes(w)) score += 2;
+  });
+
+  matchedItems.push({ doc, data, score });
+ });
+
+// スコアで降順ソート
+  matchedItems.sort((a, b) => b.score - a.score);
+
+  // 表示
+    if (matchedItems.length === 0) {
+      resultsContainer.innerHTML = `<p>該当する商品が見つかりませんでした。</p>`;
+    }   else {
+      matchedItems.forEach(({ doc, data }) => {
         resultsContainer.innerHTML += `
           <div class="search-item">
             <a href="detail.html?id=${doc.id}" style="text-decoration:none; color:inherit;">
@@ -214,11 +243,7 @@ buildSynonymDictionaryFromFirebase(); // 実行
             </a>
           </div>
         `;
-      }
-    });
-
-    if(found === 0) {
-      resultsContainer.innerHTML = `<p>該当する商品が見つかりませんでした。</p>`;
+      });
     }
   }
 </script>
