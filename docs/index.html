@@ -42,7 +42,8 @@
   </main>
 
 
-<script src="kuromoji.js-master/build/kuromoji.js"></script>
+<script src="docs/kuromoji.js-master/kuromoji.js-master/build/kuromoji.js"></script>
+
 
 
 
@@ -104,13 +105,10 @@
   });
 
   // kuromojiトークナイザーを用意
-  let tokenizer;
-  kuromoji.builder({ dicPath: "https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict/" }).build(function(err, _tokenizer) {
-    if(err) {
-      console.error("kuromoji build error:", err);
-      return;
-    }
-    tokenizer = _tokenizer;
+  kuromoji.builder({ dicPath: "/url/to/dictionary/dir/" }).build(function (err, tokenizer) {
+    // tokenizer is ready
+    var path = tokenizer.tokenize("すもももももももものうち");
+    console.log(path);
   });
 
   // デバウンス用タイマー
