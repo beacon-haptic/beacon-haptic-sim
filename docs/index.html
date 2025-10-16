@@ -126,7 +126,7 @@
 
     snapshot.forEach(doc => {
       const data = doc.data();
-      const { name, category, detail, tag, image } = data;
+      const { name, category, detail, tags, image } = data;
 
       const keywordLower = keyword.toLowerCase();
 
@@ -135,7 +135,7 @@
         (name && name.includes(keyword)) ||
         (category && category.includes(keyword)) ||
         (detail && detail.includes(keyword)) ||
-        (Array.isArray(tag) && tag.some(t => t.includes(keyword)));
+        (Array.isArray(tags) && tags.some(t => t.includes(keyword)));
 
       if (matches) {
         found++;
