@@ -7,6 +7,10 @@ h1{
     padding-bottom: 20px;
 }
 
+h2{
+  background-color: rgb(96, 95, 95);
+}
+
 .hamburger {
   width: 80px;
   height: 80px;
