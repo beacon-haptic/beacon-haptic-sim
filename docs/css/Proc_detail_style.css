@@ -8,7 +8,7 @@ h1{
 }
 
 h2{
-  background-color: #cad1e3;
+  background-color: #a2afcf;
 }
 
 .hamburger {
@@ -65,100 +65,4 @@ h2{
   text-decoration: none;
   display: block;
   margin: 10px 0;
-}
-
-body {
-  font-family: "Hiragino Sans", "Noto Sans JP", sans-serif;
-  background-color: #f0f7ff;
-  margin: 0;
-  padding: 20px;
-}
-
-.product-page {
-  max-width: 1000px;
-  margin: 0 auto;
-  background: #fff;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.product-main {
-  display: flex;
-  gap: 30px;
-}
-
-.product-images {
-  flex: 1;
-}
-
-.main-image {
-  width: 100%;
-  border: 1px solid #ccc;
-}
-
-.thumbnail-list {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.thumbnail-list img {
-  width: 70px;
-  height: 70px;
-  border: 1px solid #ccc;
-  object-fit: cover;
-  cursor: pointer;
-}
-
-.product-info {
-  flex: 1;
-}
-
-.product-name {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-}
-
-.product-price {
-  font-size: 1.2em;
-  color: #d33;
-  margin-bottom: 10px;
-}
-
-.catch-copy {
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.buy-button {
-  background-color: #444;
-  color: #fff;
-  border: none;
-  padding: 12px 20px;
-  cursor: pointer;
-  font-size: 1em;
-}
-
-.buy-button:hover {
-  background-color: #666;
-}
-
-.info-links {
-  list-style: none;
-  padding: 0;
-  margin-top: 20px;
-}
-
-.info-links li {
-  margin-bottom: 5px;
-}
-
-.product-detail, .product-review, .related-products {
-  margin-top: 40px;
-}
-
-h2 {
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 5px;
-  margin-bottom: 15px;
 }
