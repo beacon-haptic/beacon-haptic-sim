@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>商品詳細</title>
+  <link rel="stylesheet" href="css/Proc_itirann_style.css">
   <script type="module">
     import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
@@ -51,11 +52,11 @@
   </script>
 </head>
 <body>
-  <h1 id="name"></h1>
+  <h1></h1>
+  <p id="name"></p>
   <p><strong>カテゴリ:</strong> <span id="category"></span></p>
   <img id="image" src="" alt="" style="max-width:300px;">
   <p><strong>商品説明:</strong> <span id="detail"></span></p>
-  <p id="detail">商品説明</p>
   <p id="content"></p>
 </body>
 </html>
