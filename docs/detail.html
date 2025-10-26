@@ -52,7 +52,8 @@
   </script>
 </head>
 <body>
-  <h1>商品情報</h1>
+  <header>
+      <h1>商品情報</h1>
       <button id="menu-toggle" class="hamburger">☰</button>
       <nav id="sidebar" class="sidebar">
        <ul>
@@ -62,10 +63,20 @@
         <li><a href="#">メニュー3</a></li>
        </ul>
       </nav>
+  </header>
   <p id="name"></p>
   <p><strong>カテゴリ:</strong> <span id="category"></span></p>
   <img id="image" src="" alt="" style="max-width:300px;">
   <p><strong>商品説明:</strong> <span id="detail"></span></p>
   <p id="content"></p>
+  <script>
+      document.getElementById('menu-toggle').addEventListener('click', function () {
+        const sidebar = document.getElementById('sidebar');
+        const toggleButton = document.getElementById('menu-toggle');
+
+        sidebar.classList.toggle('active');
+        toggleButton.classList.toggle('no-border');
+      });
+  </script>
 </body>
 </html>
