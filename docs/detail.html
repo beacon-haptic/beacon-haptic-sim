@@ -68,17 +68,16 @@
   </header>
 <main class="detail-container">
   <div class="detail-card">
-    <!-- 左カラム：画像 + 詳細説明 -->
+    <!-- 上：画像 -->
     <div class="detail-left">
-      <img id="image" src="images/no-image.png" alt="商品画像S" class="product-image">
+      <img id="image" src="images/no-image.png" alt="商品画像" class="product-image">
     </div>
 
-    <!-- 右カラム：名前、値段、カテゴリ -->
+    <!-- 下：商品情報 -->
     <div class="detail-right">
       <h2 id="name" class="product-title">商品名</h2>
       <p class="product-price"><strong>価格:</strong> <span id="price"></span>円</p>
       <p class="product-category"><strong>カテゴリ:</strong> <span id="category"></span></p>
-
       <p class="product-detail"><strong>商品説明:</strong> <span id="detail"></span></p>
 
       <div class="action-buttons">
@@ -88,6 +87,7 @@
     </div>
   </div>
 </main>
+
   <script>
       document.getElementById('menu-toggle').addEventListener('click', function () {
         const sidebar = document.getElementById('sidebar');
