@@ -66,3 +66,108 @@ h2{
   display: block;
   margin: 10px 0;
 }
+
+/* 商品詳細ページ用デザイン */
+.detail-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+  padding: 40px;
+  background-color: #f7f8fa;
+}
+
+.detail-card {
+  display: flex;
+  gap: 40px;
+  max-width: 1000px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  flex-wrap: wrap;
+}
+
+.detail-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-image {
+  max-width: 100%;
+  max-height: 450px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.product-detail {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #333;
+}
+
+.detail-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.product-price, .product-category {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.action-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.btn {
+  font-size: 1.1rem;
+  padding: 12px 25px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.btn-dark:hover {
+  background-color: #333 !important;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #ddd !important;
+  color: #000 !important;
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+  .detail-card {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .detail-left, .detail-right {
+    flex: 1;
+    width: 100%;
+  }
+
+  .product-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
