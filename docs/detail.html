@@ -2,11 +2,9 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>商品詳細</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/Proc_itirann_style.css">
+  <link rel="stylesheet" href="css/Proc_detail_style.css">
 
   <script type="module">
     import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
@@ -58,6 +56,7 @@
 <body>
   <header>
       <h1>商品情報</h1>
+      <div class="h2-background"></div>
       <button id="menu-toggle" class="hamburger">☰</button>
       <nav id="sidebar" class="sidebar">
        <ul>
@@ -73,6 +72,7 @@
     <!-- 上：画像 -->
     <div class="detail-left">
       <img id="image" src="images/no-image.png" alt="商品画像" class="product-image">
+      <p class="product-detail"><strong>商品説明:</strong> <span id="detail"></span></p>
     </div>
 
     <!-- 下：商品情報 -->
@@ -80,7 +80,6 @@
       <h2 id="name" class="product-title">商品名</h2>
       <p class="product-price"><strong>価格:</strong> <span id="price"></span>円</p>
       <p class="product-category"><strong>カテゴリ:</strong> <span id="category"></span></p>
-      <p class="product-detail"><strong>商品説明:</strong> <span id="detail"></span></p>
 
       <div class="action-buttons">
         <button class="btn btn-dark">カートに入れる</button>
