@@ -56,7 +56,6 @@
 <body>
   <header>
       <h1>商品情報</h1>
-      <div class="h2-background"></div>
       <button id="menu-toggle" class="hamburger">☰</button>
       <nav id="sidebar" class="sidebar">
        <ul>
@@ -72,22 +71,28 @@
     <!-- 上：画像 -->
     <div class="detail-left">
       <img id="image" src="images/no-image.png" alt="商品画像" class="product-image">
-      <p class="product-detail"><strong>商品説明:</strong> <span id="detail"></span></p>
+      <p class="product-detail"><strong>説明:</strong> <span id="detail"></span></p>
     </div>
 
     <!-- 下：商品情報 -->
     <div class="detail-right">
-      <h2 id="name" class="product-title">商品名</h2>
+      <h2 class="product-title">
+        <strong class="product-name">商品名:</strong><br>
+        <span id="name"></span>
+      </h2>
       <p class="product-price"><strong>価格:</strong> <span id="price"></span>円</p>
       <p class="product-category"><strong>カテゴリ:</strong> <span id="category"></span></p>
 
       <div class="action-buttons">
-        <button class="btn btn-dark">カートに入れる</button>
+        <button class="btn btn-dark">ナビを開始</button>
         <button class="btn btn-outline-secondary">お気に入りに追加</button>
       </div>
     </div>
   </div>
 </main>
+<div class="h2-background"></div>
+<div class="h2-background"></div>
+<div class="h2-background"></div>
 
   <script>
       document.getElementById('menu-toggle').addEventListener('click', function () {
