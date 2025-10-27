@@ -140,22 +140,22 @@ h2::after {
 
 .product-name {
   font-size: 1.5rem !important;
-  display: block;          /* 改行させる */
-  margin-bottom: 0.5em; 
+  display: block; 
+  margin-bottom: 0px;         /* 改行させる */
 }
 
 .product-title {
   font-size: 2.5rem !important;
   text-align: left;
   width: 100%;
-  margin-top: 0.5rem;    /* 上の余白 */
-  margin-bottom: 0rem; 
+  margin: 0;
   line-height: 1; 
 }
 
 #name {
-  display: block;          /* 改行させる */
-  margin-bottom: 0.3em;    /* 「トマト」と下の要素の間を少し狭く */
+  display: block;
+  margin-top: 0.5rem;    /* 上の余白 */           /* 改行させる */
+   /* 「トマト」と下の要素の間を少し狭く */
 }
 
 .product-detail {
