@@ -24,6 +24,11 @@
       </h2>
       
    </header> 
+   <main class="container mt-4">
+     <div id="product-list" class="row g-4">
+      <!-- Firebaseから取得した商品がここに表示される -->
+     </div>
+   </main>
    <script>
       document.getElementById('menu-toggle').addEventListener('click', function () {
         const sidebar = document.getElementById('sidebar');
@@ -33,4 +38,58 @@
         toggleButton.classList.toggle('no-border');
       });
    </script>
+ <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+
+    // ✅ ③ ここを自分のFirebase設定に置き換える
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Firebase初期化
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Firestoreから商品を取得してHTMLに追加
+    async function loadProducts() {
+      const productContainer = document.getElementById("product-list");
+      productContainer.innerHTML = ""; // 初期化
+
+      const querySnapshot = await getDocs(collection(db, "products"));
+      querySnapshot.forEach((doc) => {
+        const product = doc.data();
+
+        // カードテンプレート生成
+        const card = document.createElement("div");
+        card.className = "col-md-6";
+        card.innerHTML = `
+          <div class="product-card">
+            <img src="${product.image}" alt="${product.name}">
+            <h5>${product.name}</h5>
+            <p>¥${product.price.toLocaleString()}</p>
+            <button class="btn btn-primary" onclick="location.href='detail.html?id=${doc.id}'">
+              詳細を見る
+            </button>
+          </div>
+        `;
+
+        productContainer.appendChild(card);
+      });
+    }
+
+    // ページ読み込み時に商品を表示
+    window.addEventListener("DOMContentLoaded", loadProducts);
+
+    // 既存のハンバーガーメニュー動作
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    });
+ </script>
 </body>

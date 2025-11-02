@@ -66,3 +66,20 @@ h2{
   display: block;
   margin: 10px 0;
 }
+
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  background-color: #fff;
+  transition: 0.3s;
+}
+.product-card:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.product-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
