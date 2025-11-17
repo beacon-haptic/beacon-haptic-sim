@@ -9,8 +9,7 @@
 </head>
 <body>
   <header>
-    <link rel="stylesheet" href="css/Proc_style.css">
-    <h1 class="site-title"></h1>
+    <h1>店舗案内システム</h1>
     <button id="menu-toggle" class="hamburger">☰</button>
     <nav id="sidebar" class="sidebar">
      <ul>
@@ -19,8 +18,9 @@
       <li><a href="#">メニュー3</a></li>
      </ul>
     </nav>
+  </header>
 
-    <button onclick="showContent()" id="show-search-button">🔍</button>
+      <button onclick="showContent()" id="show-search-button">🔍</button>
   <div id="search-panel">
     <div id="hidden-content">
       <label for="search"></label>
@@ -29,10 +29,6 @@
     </div>
     <div id="search-results" class="container mt-4 row"></div>
   </div>
-  
-
-  </header>
-
 
 
 
@@ -46,21 +42,21 @@
 
     //検索ボタンを押した時、検索項目と戻るボタンの表示・元々あった検索ボタンの非表示
     function showContent() {
-      document.getElementById('hidden-content').style.display = 'flex';
-      document.getElementById('show-search-button').style.display = 'none';
+      document.getElementById('hidden-content').style.display = 'flex'; // OK
+      document.getElementById('show-search-button').style.visibility = 'hidden'; // ← display → visibility
       document.getElementById('show-back-button').style.display = 'block';
       document.getElementById('search-panel').classList.add('active');
       document.getElementById('search').focus();
-      const showButton = document.getElementById('show-search-button');
     }
-    //戻るボタンを押した時、検索項目と戻るボタンの非表示・元々あった検索ボタンの表示
+
     function showbackContent() {
       document.getElementById('hidden-content').style.display = 'none';
-      document.getElementById('show-search-button').style.display = 'block';
+      document.getElementById('show-search-button').style.visibility = 'visible'; // ← display → visibility
       document.getElementById('show-back-button').style.display = 'none';
       document.getElementById('search-panel').classList.remove('active');
       document.getElementById('search-results').innerHTML = "";
       document.getElementById('search').value = "";
+    
 
       const showButton = document.getElementById('show-back-button');
     }
