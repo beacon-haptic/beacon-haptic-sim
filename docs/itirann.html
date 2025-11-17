@@ -15,7 +15,7 @@
        <ul>
         <li><a href="index.html">ホーム</a></li>
         <li><a href="itirann.html">商品一覧</a></li>
-        <li><a href="#">メニュー2</a></li>
+        <li><a href="#">お気に入り</a></li>
         <li><a href="#">メニュー3</a></li>
        </ul>
       </nav>      
@@ -60,8 +60,23 @@
     productContainer.innerHTML = "";
 
     const snapshot = await db.collection("products").get();
+
+    let products = [];
+
     snapshot.forEach(doc => {
-      const product = doc.data();
+      products.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+
+    // ▼ 五十音順（商品名の昇順）に並び替え
+    products.sort((a, b) => {
+      return a.name.localeCompare(b.name, 'ja'); // ← 日本語対応
+    });
+
+    // ▼ 並び替えた順に表示
+    products.forEach(product => {
       const card = document.createElement("div");
       card.className = "col-md-6";
       card.innerHTML = `
@@ -71,11 +86,13 @@
         </div>
       `;
       card.querySelector('.product-card').addEventListener('click', () => {
-        location.href = `detail.html?id=${doc.id}`;
+        location.href = `detail.html?id=${product.id}`;
       });
+
       productContainer.appendChild(card);
     });
   }
+
 
   window.addEventListener("DOMContentLoaded", loadProducts);
 </script>

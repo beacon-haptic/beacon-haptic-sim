@@ -93,6 +93,9 @@ h2::after {
   transition: transform 0.3s ease;
   z-index: 1000;
   font-size: 36px;
+  white-space: nowrap;       /* ← 改行を禁止 */
+  overflow: hidden;          /* ← はみ出す分を隠す */
+  text-overflow: ellipsis;   /* ← はみ出したら「…」で省略 */
 }
 
 /* サイドバーが開いた状態 */
@@ -126,10 +129,10 @@ h2::after {
   display: flex !important;
   gap: 94px !important;
   max-width: 1000px !important;
-  background-color: #fff;
-  border-radius: 16px;
+  background-color: #d7e7fa;
+  border: 3px solid black;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  padding: 94px !important;
+  padding: 75px !important;
   flex-wrap: nowrap; /* デフォルトは横並びに固定 */
 }
 

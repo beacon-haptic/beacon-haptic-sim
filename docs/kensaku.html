@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>店舗案内システム</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="css/Proc_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
@@ -12,11 +12,11 @@
     <h1>店舗案内システム</h1>
     <button id="menu-toggle" class="hamburger">☰</button>
     <nav id="sidebar" class="sidebar">
-      <ul>
-        <li><a href="itirann.html">商品一覧</a></li>
-        <li><a href="#">お気に入り</a></li>
-        <li><a href="kensaku.html">メニュー3</a></li>
-      </ul>
+     <ul>
+      <li><a href="itirann.html">商品一覧</a></li>
+      <li><a href="#">お気に入り</a></li>
+      <li><a href="#">メニュー3</a></li>
+     </ul>
     </nav>
   </header>
 
@@ -31,11 +31,12 @@
   </div>
 
   <main>
-    <img id="img" src="picture/店舗マップ.jpg" alt="画像1">
+      <link rel="stylesheet" href="css/Proc_style.css">
+      <img id="img" src="picture/店舗マップ.jpg" alt="画像1">
   </main>
 
   <script>
-    // 検索パネル表示切替
+    // --- 検索パネルの表示切替 ---
     function showContent() {
       document.getElementById('hidden-content').style.display = 'flex';
       document.getElementById('show-search-button').style.visibility = 'hidden';
@@ -53,7 +54,6 @@
       document.getElementById('search').value = "";
     }
 
-    // サイドバー
     document.getElementById('menu-toggle').addEventListener('click', function () {
       const sidebar = document.getElementById('sidebar');
       const toggleButton = document.getElementById('menu-toggle');
@@ -67,7 +67,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
   <script>
-    // Firebase設定
+    // --- Firebase設定 ---
     const firebaseConfig = {
       apiKey: "AIzaSyAHiMCeiOFN-R4EoLTiBpeJWIUQYIrUA5M",
       authDomain: "beacon-haptic-sim.firebaseapp.com",
@@ -88,40 +88,44 @@
         .toLowerCase()
         .replace(/[ぁ-ん]/g, s =>
           String.fromCharCode(s.charCodeAt(0) + 0x60)
-        );
+        ); // ひらがな→カタカナ
     }
 
-    // --- トークナイズ関数 ---
-    let tokenizer = null;
+    // --- 文字列をトークナイズ ---
     function tokenizeText(text) {
       if (!tokenizer) return [];
       const normalized = normalizeText(text);
       return tokenizer.tokenize(normalized).map(t => normalizeText(t.surface_form));
     }
 
-    kuromoji.builder({ dicPath: "../kuromoji.js-master/kuromoji.js-master/dict" }).build((err, builtTokenizer) => {
-      if (err) { console.error(err); return; }
+    // --- kuromoji初期化 ---
+    let tokenizer = null;
+    kuromoji.builder({ dicPath: "../kuromoji.js-master/kuromoji.js-master/dict" }).build(function (err, builtTokenizer) {
+      if (err) { console.error("kuromoji読み込みエラー:", err); return; }
       tokenizer = builtTokenizer;
     });
 
-    // デバウンス検索
+    // --- デバウンス検索 ---
     let debounceTimer;
     document.getElementById('search').addEventListener('input', function(event) {
       const keyword = event.target.value.trim();
       clearTimeout(debounceTimer);
 
       debounceTimer = setTimeout(() => {
-        if(keyword === "" || !tokenizer) {
+        if(keyword === "") {
           document.getElementById('search-results').innerHTML = "";
           return;
         }
 
-        const words = tokenizeText(keyword); // 類義語なし
+        if(!tokenizer) return;
+
+        const words = tokenizeText(keyword); // 類義語展開なし
         searchItems(words);
+
       }, 300);
     });
 
-    // 検索処理
+    // --- 検索処理 ---
     async function searchItems(words) {
       const resultsContainer = document.getElementById('search-results');
       resultsContainer.innerHTML = "";
@@ -131,42 +135,49 @@
 
       snapshot.forEach(doc => {
         const data = doc.data();
-        const allWords = [
-          ...tokenizeText(data.name || ""),
-          ...tokenizeText(data.category || ""),
-          ...tokenizeText(data.detail || ""),
-          ...tokenizeText((data.tags || []).join(" "))
-        ];
+        const nameWords = tokenizeText(data.name || "");
+        const categoryWords = tokenizeText(data.category || "");
+        const detailWords = tokenizeText(data.detail || "");
+        const tagWords = tokenizeText((data.tags || []).join(" "));
 
-        if(!words.some(w => allWords.includes(w))) return;
+        const allWords = [...nameWords, ...categoryWords, ...detailWords, ...tagWords];
+        const matched = words.some(w => allWords.includes(w));
+        if (!matched) return;
 
         let score = 0;
+        let scoreDetail = { name:0, category:0, detail:0, tag:0 };
+
         words.forEach(w => {
-          if (tokenizeText(data.name || "").includes(w)) score += 10;
-          if (tokenizeText(data.category || "").includes(w)) score += 3;
-          if (tokenizeText(data.detail || "").includes(w)) score += 1;
-          if (tokenizeText((data.tags || []).join(" ")).includes(w)) score += 2;
+          if (nameWords.includes(w)) { score += 10; scoreDetail.name += 10; }
+          if (categoryWords.includes(w)) { score += 3; scoreDetail.category += 3; }
+          if (detailWords.includes(w)) { score += 1; scoreDetail.detail += 1; }
+          if (tagWords.includes(w)) { score += 2; scoreDetail.tag += 2; }
         });
 
-        matchedItems.push({ doc, data, score });
+        matchedItems.push({ doc, data, score, scoreDetail });
       });
 
-      matchedItems.sort((a,b) => b.score - a.score);
+      matchedItems.sort((a, b) => b.score - a.score);
 
-      if(matchedItems.length === 0){
+      if (matchedItems.length === 0) {
         resultsContainer.innerHTML = `<p>該当する商品が見つかりませんでした。</p>`;
       } else {
-        matchedItems.forEach(({ doc, data }) => {
+        matchedItems.forEach(({ doc, data, scoreDetail }) => {
           resultsContainer.innerHTML += `
-            <div class="search-item">
+            <div class="search-item border p-2 mb-2">
               <a href="detail.html?id=${doc.id}" style="text-decoration:none; color:inherit;">
                 <h5 class="item-name">${data.name}</h5>
                 <p class="item-category">${data.category}</p>
               </a>
+              <div class="score-detail" style="font-size:0.9em; color:#555;">
+                🔹 スコア内訳: name ${scoreDetail.name}, category ${scoreDetail.category}, detail ${scoreDetail.detail}, tag ${scoreDetail.tag}
+              </div>
             </div>
           `;
         });
       }
     }
   </script>
+</body>
 </html>
+

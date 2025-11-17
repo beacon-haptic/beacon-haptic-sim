@@ -62,6 +62,9 @@ h2{
   transition: transform 0.3s ease;
   z-index: 1000;
   font-size: 36px;
+  white-space: nowrap;       /* ← 改行を禁止 */
+  overflow: hidden;          /* ← はみ出す分を隠す */
+  text-overflow: ellipsis;   /* ← はみ出したら「…」で省略 */
 }
 
 /* サイドバーが開いた状態 */
@@ -89,7 +92,7 @@ h2{
   border-radius: 8px;
   padding: 10px;
   text-align: center;
-  background-color: #fff;
+  background-color: #d7e7fa;
   transition: 0.3s;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }

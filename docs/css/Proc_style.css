@@ -41,6 +41,7 @@ header h1 {
 }
 
 #show-search-button{
+  background-color: rgb(236, 193, 113);
     width: 90px;
     height: 90px;
     right: 20px;  
@@ -124,6 +125,10 @@ button{
   transition: transform 0.3s ease;
   z-index: 1000;
   font-size: 36px;
+  white-space: nowrap;       /* ← 改行を禁止 */
+  overflow: hidden;          /* ← はみ出す分を隠す */
+  text-overflow: ellipsis;   /* ← はみ出したら「…」で省略 */
+
 }
 
 /* サイドバーが開いた状態 */
