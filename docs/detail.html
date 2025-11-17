@@ -40,6 +40,7 @@
         const data = docSnap.data();
         document.getElementById('name').textContent = data.name || "";
         document.getElementById('category').textContent = data.category || "";
+        document.getElementById('price').textContent = data.price || "";
         document.getElementById('detail').textContent = data.detail || "";
         if(data.image){
           document.getElementById('image').src = data.image;
