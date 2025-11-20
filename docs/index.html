@@ -6,6 +6,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/Proc_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
   <header>
@@ -31,7 +33,7 @@
   </div>
 
   <main>
-    <img id="img" src="picture/店舗マップ.jpg" alt="画像1">
+    <div id="map"></div>
   </main>
 
   <script>
@@ -169,4 +171,30 @@
       }
     }
   </script>
+
+  <script>
+  const w = 2000;
+  const h = 1500;
+
+  // bounds を大きくすると画像は縮小され、画面に収まる
+  const bounds = [[0, 0], [h/2, w/2]];  // 数値を微調整
+
+  const map = L.map('map', {
+    crs: L.CRS.Simple,
+    minZoom: -2,
+    maxZoom: 2,
+    zoom: 0
+  });
+
+  // ImageOverlay を追加
+  L.imageOverlay('picture/店舗マップ.jpg', bounds).addTo(map);
+
+  // fitBounds を使うと自動で縮小されるので不要
+  // map.fitBounds(bounds);
+
+  // 代わりに初期表示の中心とズームを設定
+  map.setView([h/4, w/4], 0);  // 中央座標を微調整
+
+  </script>
+
 </html>
