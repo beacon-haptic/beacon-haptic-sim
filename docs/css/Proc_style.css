@@ -1,21 +1,17 @@
 header{
     position: relative;   /* ← ボタン類を絶対配置できる */
-    height: 150px;
+    height: auto;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
 }
 
 header h1,
-#show-search-button,
-.hamburger,
-.sidebar {
+#show-search-button{
     background-color: rgb(28, 28, 125);
 }
 
 header h1,
-button,
-.hamburger,
-.sidebar ul li a {
+button{
     color: wheat;
 }
 
@@ -47,7 +43,7 @@ header h1 {
     right: 20px;  
     margin-left: auto;
     margin-right: 20px;
-    margin-top: -10px;
+    margin-top: 60px !important;
     margin-bottom: 30px;
     font-size: 39px;
     border-radius: 50%;
@@ -81,28 +77,9 @@ button{
 }
 
 
-.hamburger {
-  width: 80px;
-  height: 80px;
-  padding: 10px; 
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1001;
-  border: 3px solid rgb(28, 28, 125);
-  font-size: 40px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.hamburger {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 1001;
-}
+
+
 
 
 #img {
@@ -111,46 +88,6 @@ button{
     margin: 0 auto; 
 }
 
-/* サイドバー初期スタイル（非表示状態） */
-.sidebar {
-  position: fixed;
-  padding-top: 80px !important;
-  top: 0;
-  left: 0;
-  width: 200px;
-  height: 100vh;
-  color: rgb(38, 37, 37);
-  border-right: 2px solid #F87B1B;
-  padding: 20px;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  z-index: 1000;
-  font-size: 36px;
-  white-space: nowrap;       /* ← 改行を禁止 */
-  overflow: hidden;          /* ← はみ出す分を隠す */
-  text-overflow: ellipsis;   /* ← はみ出したら「…」で省略 */
-
-}
-
-/* サイドバーが開いた状態 */
-.sidebar.active {
-  transform: translateX(0);
-}
-
-.hamburger.no-border {
-  border: none !important;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar ul li a {
-  text-decoration: none;
-  display: block;
-  margin: 10px 0;
-}
 
 #search{
   background-color: #ebeaea;
@@ -262,7 +199,7 @@ button{
 }
 
 #map {
-  height: 100vh;
+  height: 90vh;
   width: 100%;
   margin-top: 0 !important;
   z-index: 0;  
@@ -281,9 +218,51 @@ button{
 }
 
 .leaflet-control-zoom {
-  top: 250px !important;   /* 上からの位置を下げる */
+  top: 75px !important;   /* 上からの位置を下げる */
   left: 10px !important;   /* 左位置はそのまま */
 }
 
+/* リセットボタンのサイズをズームボタンと揃える */
+.leaflet-control-reset {
+  width: 75px !important;
+  height: 75px !important;
+  line-height: 75px !important;
+  font-size: 45px !important;
+  text-align: center;
+}
+
+
+
+    /* カテゴリナビ */
+    .category-nav {
+      display: flex;
+      width: 100%;
+      margin: 0 auto;
+     }
+
+    .category-nav a {
+      flex: 1; /* 三等分 */
+      text-align: center;
+      padding: 15px 0;
+      text-decoration: none;
+      font-size: 36px;
+      color: white;
+      background-color: navy;
+      transition: background-color 0.3s;
+      border-right: 1px solid #F87B1B; /* 区切り線 */
+    }
+
+    .category-nav a:last-child {
+      border-right: none; /* 最後の項目は右線なし */
+    }
+
+    /* 現在のページ */
+    .category-nav a.active {
+      background-color: #F87B1B; /* オレンジ背景 */
+      color: white;
+      font-weight: bold;
+    }
+
+    
 
 

@@ -1,13 +1,10 @@
 /* 背景色 #f1eded */
-h1,
-.hamburger,
-.sidebar {
+h1{
   background-color: rgb(28, 28, 125);
 }
 
 /* 文字色オレンジ */
-h1,.hamburger,
-.sidebar ul li a {
+h1,.hamburger{
   color: wheat;
 }
 
@@ -22,70 +19,19 @@ html, body {
   background-color: #f7f8fa;
 }
 h1{
-    text-align: center;
-    border-bottom: 5px solid orange;
-    font-size: 60px;
-    padding-top: 20px;
-    padding-bottom: 20px;
+  margin-bottom: 0px !important;
+  text-align: center;
+  border-bottom: 5px solid #F87B1B;;
+  font-size: 60px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 h2{
   background-color: #e1dfdfcc;
 }
 
-.hamburger {
-  width: 80px;
-  height: 80px;
-  padding: 10px; 
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1001;
-  border: none;
-  font-size: 40px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* サイドバー初期スタイル（非表示状態） */
-.sidebar {
-  position: fixed;
-  padding-top: 70px !important;
-  top: 0;
-  left: 0;
-  width: 200px;
-  height: 100vh;
-  border-right: 2px solid orange;
-  padding: 20px;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  z-index: 1000;
-  font-size: 36px;
-  white-space: nowrap;       /* ← 改行を禁止 */
-  overflow: hidden;          /* ← はみ出す分を隠す */
-  text-overflow: ellipsis;   /* ← はみ出したら「…」で省略 */
-}
 
-/* サイドバーが開いた状態 */
-.sidebar.active {
-  transform: translateX(0);
-}
-
-.hamburger.no-border {
-  border: none !important;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar ul li a {
-  text-decoration: none;
-  display: block;
-  margin: 10px 0;
-}
 
 .product-card {
   border: 3px solid black;
@@ -116,4 +62,33 @@ h2{
 h5{
   font-size: 30px;
   border-top: 4px solid black;
+}
+
+.category-nav {
+  display: flex;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.category-nav a {
+  flex: 1; /* 三等分 */
+  text-align: center;
+  padding: 15px 0;
+  text-decoration: none;
+  font-size: 36px;
+  color: white;
+  background-color: navy;
+  transition: background-color 0.3s;
+  border-right: 1px solid #F87B1B; /* 区切り線 */
+}
+
+.category-nav a:last-child {
+  border-right: none; /* 最後の項目は右線なし */
+}
+
+    /* 現在のページ */
+.category-nav a.active {
+  background-color: #F87B1B; /* オレンジ背景 */
+  color: white;
+  font-weight: bold;
 }

@@ -57,14 +57,10 @@
 <body>
   <header>
       <h1>商品情報</h1>
-      <button id="menu-toggle" class="hamburger">☰</button>
-      <nav id="sidebar" class="sidebar">
-       <ul>
-        <li><a href="index.html">ホーム</a></li>
-        <li><a href="itirann.html">商品一覧</a></li>
-        <li><a href="#">お気に入り</a></li>
-        <li><a href="#">メニュー3</a></li>
-       </ul>
+      <nav class="category-nav">
+        <a href="index.html" class="active">ホーム</a>
+        <a href="itirann.html">商品一覧</a>
+        <a href="#">お気に入り</a>
       </nav>
   </header>
 <main class="detail-container">
@@ -94,15 +90,5 @@
 <div class="h2-background"></div>
 <div class="h2-background"></div>
 <div class="h2-background"></div>
-
-  <script>
-      document.getElementById('menu-toggle').addEventListener('click', function () {
-        const sidebar = document.getElementById('sidebar');
-        const toggleButton = document.getElementById('menu-toggle');
-
-        sidebar.classList.toggle('active');
-        toggleButton.classList.toggle('no-border');
-      });
-  </script>
 </body>
 </html>

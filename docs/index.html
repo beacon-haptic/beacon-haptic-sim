@@ -12,13 +12,10 @@
 <body>
   <header>
     <h1>店舗案内システム</h1>
-    <button id="menu-toggle" class="hamburger">☰</button>
-    <nav id="sidebar" class="sidebar">
-      <ul>
-        <li><a href="itirann.html">商品一覧</a></li>
-        <li><a href="#">お気に入り</a></li>
-        <li><a href="kensaku.html">メニュー3</a></li>
-      </ul>
+    <nav class="category-nav">
+      <a href="index.html" class="active">ホーム</a>
+      <a href="itirann.html">商品一覧</a>
+      <a href="#">お気に入り</a>
     </nav>
   </header>
 
@@ -54,14 +51,6 @@
       document.getElementById('search-results').innerHTML = "";
       document.getElementById('search').value = "";
     }
-
-    // サイドバー
-    document.getElementById('menu-toggle').addEventListener('click', function () {
-      const sidebar = document.getElementById('sidebar');
-      const toggleButton = document.getElementById('menu-toggle');
-      sidebar.classList.toggle('active');
-      toggleButton.classList.toggle('no-border');
-    });
   </script>
 
   <script src="kuromoji.js-master/kuromoji.js-master/build/kuromoji.js"></script>
@@ -183,17 +172,77 @@
     crs: L.CRS.Simple,
     minZoom: -2,
     maxZoom: 2,
-    zoom: 0
+    zoom: 0,
+    zoomControl: false
+
   });
 
   // ImageOverlay を追加
   L.imageOverlay('picture/店舗マップ.jpg', bounds).addTo(map);
 
+  const initialCenter = window.innerWidth < 768 ? [h/6, w/4] : [h/4, w/4];
+  const initialZoom = 0;
+
+  // 初期位置設定
+  map.setView(initialCenter, initialZoom);
+
   // fitBounds を使うと自動で縮小されるので不要
   // map.fitBounds(bounds);
 
   // 代わりに初期表示の中心とズームを設定
-  map.setView([h/4, w/4], 0);  // 中央座標を微調整
+  map.setView([h/8, w/4], 0);  // 中央座標を微調整
+
+  </script>
+
+  <script>
+      // ズームとリセットの複合コントロール
+    const ZoomResetControl = L.Control.extend({
+      options: {
+        position: 'topleft'
+      },
+
+      onAdd: function(map) {
+        // 標準 zoom コントロールの HTML を自分で作る
+        const container = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar');
+
+        // ＋ボタン
+        const zoomIn = L.DomUtil.create('a', 'leaflet-control-zoom-in', container);
+        zoomIn.innerHTML = '+';
+        zoomIn.href = '#';
+        zoomIn.onclick = function(e) {
+        e.preventDefault();
+          map.zoomIn();
+        };
+
+        // −ボタン
+        const zoomOut = L.DomUtil.create('a', 'leaflet-control-zoom-out', container);
+        zoomOut.innerHTML = '-';
+        zoomOut.href = '#';
+        zoomOut.onclick = function(e) {
+          e.preventDefault();
+          map.zoomOut();
+        };
+
+        // 🔄 リセットボタン（あなたの追加部分）
+        const resetBtn = L.DomUtil.create('a', 'leaflet-control-reset', container);
+        resetBtn.innerHTML = '&#x21BA;';
+        resetBtn.href = '#';
+        resetBtn.style.fontSize = '32px';
+        resetBtn.style.lineHeight = '38px';
+        resetBtn.style.textAlign = 'center';
+
+        resetBtn.onclick = function(e) {
+          e.preventDefault();
+          map.setView(initialCenter, initialZoom);
+        };
+
+        return container;
+      }
+    });
+
+    // 地図に追加
+    map.addControl(new ZoomResetControl());
+
 
   </script>
 

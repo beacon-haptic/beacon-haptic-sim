@@ -26,12 +26,14 @@ h1,
 
 
 h1{
-    text-align: center;
-    border-bottom: 5px solid orange;
-    font-size: 60px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    transform-origin: top left;
+  text-align: center;
+  border-bottom: 5px solid#F87B1B;
+  font-size: 60px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  transform-origin: top left;
+  margin-bottom: 0px;
+    
 }
 
 @media (max-width: 768px) {
@@ -226,6 +228,30 @@ h2::after {
     padding: 18px 35px !important;
     font-size: 1.4rem !important;
   }
+}
+
+
+/* カテゴリナビ */
+.category-nav {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.category-nav a {
+  flex: 1; /* 三等分 */
+  text-align: center;
+  padding: 15px 0;
+  text-decoration: none;
+  font-size: 36px;
+  color: white;
+  background-color: navy;
+  transition: background-color 0.3s;
+  border-right: 1px solid #F87B1B; /* 区切り線 */
+}
+
+.category-nav a:last-child {
+  border-right: none; /* 最後の項目は右線なし */
 }
 
 
