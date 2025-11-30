@@ -1,0 +1,96 @@
+/* 背景色 #f1eded */
+h1{
+  background-color: white;
+}
+
+/* 文字色オレンジ */
+h1{
+  color: black;
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0; /* デフォルトの余白を消す */
+  background-color: white;
+}
+
+.back-color{
+  background-color: rgba(237, 234, 234, 0.858);
+}
+h1{
+  margin-bottom: 0px !important;
+  text-align: center;
+  border-bottom: 3px solid black;
+  font-size: 60px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+h2{
+  background-color:rgba(237, 234, 234, 0.858);
+}
+
+
+
+.product-card {
+  border: 3px solid black;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  background-color: white;
+  transition: 0.3s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.product-card:active {
+  opacity: 0.7;
+  transform: scale(0.98);
+}
+
+.product-card:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  max-height: 200px
+}
+
+h5{
+  font-size: 30px;
+  border-top: 4px solid black;
+}
+
+.category-nav {
+  display: flex;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.category-nav a {
+  flex: 1; /* 三等分 */
+  text-align: center;
+  padding: 15px 0;
+  text-decoration: none;
+  font-size: 36px;
+  color: black;
+  background-color: white;
+  transition: background-color 0.3s;
+  border-right: 3px solid black; /* 区切り線 */
+  border-bottom: 3px solid black;
+}
+
+.category-nav a:last-child {
+  border-right: none; /* 最後の項目は右線なし */
+}
+
+    /* 現在のページ */
+.category-nav a.active {
+  background-color: white; /* オレンジ背景 */
+  color: black;
+  font-weight: bold;
+  border-bottom: 3px solid red;
+}

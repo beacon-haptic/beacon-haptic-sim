@@ -7,22 +7,22 @@ header{
 
 header h1,
 #show-search-button{
-    background-color: #0f6f6f;
+    background-color: white;
 }
 
 header h1,
 button{
-    color: wheat;
+    color: black;
 }
 
 
 header h1 {
     text-align: center;
     width: 100%;
-    border-bottom: 5px solid #79c536eb;
     font-size: 60px;
     padding: 20px 0;
     margin: 0;
+    border-bottom: 3px solid black;
 }
 
 #hidden-content{
@@ -207,7 +207,7 @@ button{
 }
 
 .leaflet-container {
-  background: #ffffff !important; /* 白 */
+  background: rgba(237, 234, 234, 0.858) !important; /* 白 */
 }
 
 
@@ -247,10 +247,11 @@ button{
       padding: 15px 0;
       text-decoration: none;
       font-size: 36px;
-      color: white;
-      background-color: gray;
+      color: black;
+      background-color:white;
       transition: background-color 0.3s;
-      border-right: 1px solid black; /* 区切り線 */
+      border-right: 3px solid black; /* 区切り線 */
+      border-bottom: 3px solid black;
     }
 
     .category-nav a:last-child {
@@ -259,84 +260,12 @@ button{
 
     /* 現在のページ */
     .category-nav a.active {
-      background-color: #79c536eb; /* オレンジ背景 */
-      color: white;
+      background-color: white; /* オレンジ背景 */
+      color: black;
       font-weight: bold;
+      border-bottom: 3px solid red;
     }
 
-
- 
-
-/* ▼ PC用レスポンシブ（全体を小さめに整える） */
-@media (min-width: 992px) {
-
-  /* --- ヘッダー --- */
-  header h1 {
-    font-size: 40px;          /* 60px → 小さく */
-    padding: 10px 0;
-    border-bottom-width: 4px;
-  }
-
-  /* --- カテゴリナビ --- */
-  .category-nav a {
-    font-size: 22px;          /* 36px → 小さく */
-    padding: 10px 0;
-  }
-
-  /* --- 検索ボタン（虫眼鏡） --- */
-  #show-search-button {
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    right: 30px;
-    margin-top: 20px !important;
-    border-width: 2px;
-  }
-
-  /* ✖ ボタン */
-  #show-back-button {
-    font-size: 28px !important;
-    width: 60px;
-  }
-
-  /* --- 検索パネル --- */
-  #search-panel {
-    width: 30vw;        /* 50vw → PCでは 30% に */
-    padding: 15px;
-  }
-
-  #search {
-    font-size: 20px !important;
-    padding: 8px;
-  }
-
-  .search-item {
-    font-size: 16px;
-    padding: 10px;
-  }
-
-  /* --- 地図 --- */
-  #map {
-    height: 80vh !important;   /* PCでは少し低く */
-    width: 70vw !important;    /* 横幅を 70% にする */
-    margin: 60px auto 0 auto !important;  /* 上の余白を調整 */
-    border-radius: 15px;
-  }
-
-  /* --- Leafletのズームボタン --- */
-  .leaflet-control-zoom-in,
-  .leaflet-control-zoom-out,
-  .leaflet-control-reset {
-    width: 45px !important;
-    height: 45px !important;
-    line-height: 45px !important;
-    font-size: 24px !important;
-  }
-
-  .leaflet-control-zoom {
-    top: 50px !important; 
-    left: 20px !important;
-  }
-}
+    
 
 
