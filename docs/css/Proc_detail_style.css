@@ -204,6 +204,7 @@ h2::after {
   display: flex;
   width: 100%;
   margin: 0 auto;
+  width: calc(100% - 20px);
 }
 
 .category-nav a {
@@ -220,7 +221,13 @@ h2::after {
 
 .category-nav a:last-child {
   border-right: none; /* 最後の項目は右線なし */
+  border-bottom-right-radius: 24px;
 }
+.category-nav a:first-child {
+  border-right: none; /* 最後の項目は右線なし */
+  border-bottom-left-radius: 24px;
+}
+
 
 /* ▼ PCだけ商品詳細カードを小さくする */
 @media (min-width: 992px) {

@@ -19,7 +19,7 @@ button{
 header h1 {
     text-align: center;
     width: 100%;
-    border-bottom: 5px solid #79c536eb;
+    border-bottom: 7px solid #79c536eb;
     font-size: 60px;
     padding: 20px 0;
     margin: 0;
@@ -75,12 +75,6 @@ header h1 {
 button{
     display: flex;
 }
-
-
-
-
-
-
 
 #img {
     display: block;
@@ -200,11 +194,29 @@ button{
 }
 
 #map {
-  height: 90vh;
-  width: 100%;
-  margin-top: 0 !important;
+  height: 50vh;
+  width: 95%;
+  margin: 30px auto 0 auto;
   z-index: 0;  
+  border: 6px solid rgb(137, 136, 136);  /* 枠線の太さと色 */
+  border-radius: 10px; 
+  outline: none !important;  
 }
+
+/* 初期状態：スマホ（小さい画面）では表示 */
+#bottom-image {
+  display: block;
+  text-align: center;
+  margin-top: 70px !important; 
+}
+
+/* PC（幅992px以上）では非表示 */
+@media (min-width: 992px) {
+  #bottom-image {
+    display: none;
+  }
+}
+
 
 .leaflet-container {
   background: #ffffff !important; /* 白 */
@@ -237,7 +249,7 @@ button{
     /* カテゴリナビ */
     .category-nav {
       display: flex;
-      width: 100%;
+      width: calc(100% - 20px);
       margin: 0 auto;
      }
 
@@ -264,7 +276,15 @@ button{
       font-weight: bold;
     }
 
+.category-nav a:first-child {
+  border-bottom-left-radius: 24px;
+}
 
+/* 最後のリンク：右上・右下を丸く */
+.category-nav a:last-child {
+  border-right: none; /* 右端の線は不要 */
+  border-bottom-right-radius: 24px;
+}
  
 
 /* ▼ PC用レスポンシブ（全体を小さめに整える） */
@@ -338,5 +358,28 @@ button{
     left: 20px !important;
   }
 }
+
+/* マップ下の画像をスマホサイズに合わせて調整 */
+#bottom-image img {
+  width: 100%;         /* 画面幅の 90% にする */ 
+  height: auto;       /* アスペクト比維持 */
+  border-radius: 10px;
+}
+
+#bottom-image .image-wrapper {
+  width: 95%;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#bottom-image .image-text {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px; /* ← 画像との間の余白 */
+  color: #333;
+}
+
+
 
 

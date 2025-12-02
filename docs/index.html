@@ -31,6 +31,12 @@
 
   <main>
     <div id="map"></div>
+    <div id="bottom-image">
+      <div class="image-wrapper">
+        <div class="image-text">店舗全体図</div>
+        <img src="picture/店舗マップ２.jpg" alt="マップ下の画像" />
+    </div>
+
   </main>
 
   <script>
@@ -190,15 +196,17 @@
         minZoom: -2,
         maxZoom: 2,
         zoom: 0,
-        zoomControl: false
+        zoomControl: false,
+        zoomSnap: 0.25,  // ← ここを追加（0.1 でもOK）
+        zoomDelta: 0.25  // ← ボタン押した時のズーム量
     });
 
     // 画像追加
-    L.imageOverlay('picture/店舗マップ.jpg', bounds).addTo(map);
+    L.imageOverlay('picture/店舗マップ１.jpg', bounds).addTo(map);
 
     // 初期表示の中心
     const initialCenter = [h / 2, w / 2];
-    const initialZoom = 0;
+    const initialZoom = -0.25;
     map.setView(initialCenter, initialZoom);
 
 

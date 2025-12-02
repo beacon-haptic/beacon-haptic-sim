@@ -97,7 +97,7 @@ h5{
 
 
 .product-card h5 {
-  font-size: 20px;
+  font-size: 28px;
   margin-top: auto;      /* 下端に固定 */
   line-height: 1.2;
   display: -webkit-box;
@@ -112,8 +112,8 @@ h5{
 
 .category-nav {
   display: flex;
-  width: 100%;
-  margin: 0 !important;
+  width: calc(100% - 20px);
+  margin: 0 auto;
 }
 
 .category-nav a {
@@ -137,6 +137,15 @@ h5{
   background-color: #79c536eb; /* オレンジ背景 */
   color: white;
   font-weight: bold;
+}
+
+.category-nav a:last-child {
+  border-right: none; /* 最後の項目は右線なし */
+  border-bottom-right-radius: 24px;
+}
+.category-nav a:first-child {
+  border-right: none; /* 最後の項目は右線なし */
+  border-bottom-left-radius: 24px;
 }
 
 /* ▼ PC用レスポンシブ（全体を小さめに整える） */
