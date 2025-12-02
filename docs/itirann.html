@@ -32,6 +32,7 @@
         toggleButton.classList.toggle('no-border');
       });
    </script>
+
 <!-- Firebase互換版 -->
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
@@ -77,8 +78,10 @@
       card.className = "col-md-6";
       card.innerHTML = `
         <div class="product-card">
-          <img src="${product.image}" alt="${product.name}">
-          <h5>${product.name}</h5>
+          <div class="image-wrapper">
+            <img src="${product.imageUrl}" alt="${product.name}">
+          </div>
+            <h5>${product.name}</h5>
         </div>
       `;
       card.querySelector('.product-card').addEventListener('click', () => {

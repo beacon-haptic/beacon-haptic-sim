@@ -129,7 +129,8 @@
           ...tokenizeText((data.tags || []).join(" "))
         ];
 
-        if(!words.some(w => allWords.includes(w))) return;
+        if(!words.every(w => allWords.includes(w))) return;
+
 
         let score = 0;
         words.forEach(w => {

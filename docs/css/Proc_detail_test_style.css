@@ -1,19 +1,17 @@
 body {
-    background-color: #f7f8fa !important; /* カテゴリナビと商品カードの間も同じ色 */
+    background-color: rgba(237, 234, 234, 0.858) !important ; /* カテゴリナビと商品カードの間も同じ色 */
 }
 
 
 /* 背景色が #f1eded の要素 */
-h1,
-.hamburger,
-.sidebar {
-    background-color: #0f6f6f;
+h1{
+    background-color: white;
 }
 
 /* 背景色が #f7f8fa の要素 */
 .h2-background,
 .detail-container {
-    background-color: #f7f8fa;
+    background-color: rgba(237, 234, 234, 0.858) !important;
 }
 
 /* 背景色が白の要素 */
@@ -22,17 +20,15 @@ h1,
 }
 
 /* 文字色が黒の要素 */
-h1,
-.hamburger,
-.sidebar ul li a {
-    color: wheat;
+h1{
+    color: black;
 }
 
 
 
 h1{
   text-align: center;
-  border-bottom: 5px solid#79c536eb;
+  border-bottom: 5px solid black;
   font-size: 60px;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -49,7 +45,7 @@ h1{
 
 h2 {
   position: relative;
-  border-bottom: 4px solid black;
+  border-bottom: 1px solid black;
   margin: 0;
   padding: 20px;
 }
@@ -69,22 +65,6 @@ h2::after {
   z-index: -1;
 }
 
-
-.hamburger {
-  width: 80px;
-  height: 80px;
-  padding: 10px; 
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1001;
-  border: none;
-  font-size: 40px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 
 
@@ -212,10 +192,11 @@ h2::after {
   padding: 15px 0;
   text-decoration: none;
   font-size: 36px;
-  color: white;
-  background-color: gray;
+  color: black;
+  background-color: white;
   transition: background-color 0.3s;
-  border-right: 1px solid  black;/* 区切り線 */
+  border-right: 3px solid  black;/* 区切り線 */
+  border-bottom: 3px solid black;
 }
 
 .category-nav a:last-child {
