@@ -13,6 +13,7 @@ header h1,
 header h1,
 button{
     color: wheat;
+    text-align: center !important; 
 }
 
 
@@ -380,6 +381,12 @@ button{
   color: #333;
 }
 
+#logout-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: wheat;
+}
 
 
 

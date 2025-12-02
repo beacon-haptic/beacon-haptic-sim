@@ -1,72 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <meta charset="UTF-8" />
-    <title>店舗案内システム</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/Proc_style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>ログイン / 新規登録</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/Proc_login_style.css">
 </head>
-<body>
-  <header>
-    <h1>店舗案内システム</h1>
-    <nav class="category-nav">
-      <a href="index.html" class="active">ホーム</a>
-      <a href="itirann.html">商品一覧</a>
-      <a href="test.html">お気に入り</a>
-    </nav>
-  </header>
+<body class="p-4">
 
-  <button onclick="showContent()" id="show-search-button">🔍</button>
-  <div id="search-panel">
-    <div id="hidden-content">
-      <label for="search"></label>
-      <input type="text" id="search" name="q" placeholder="キーワードを入力">
-      <button type="button" onclick="showbackContent()" id="show-back-button">×</button>
-    </div>
-    <div id="search-results" class="container mt-4 row"></div>
-  </div>
+    <div class="login-card">
+        <h1 class="app-title">店舗案内システム</h1> 
+        <h3 class="text-center mb-3">ログイン</h3>
 
-  <main>
-    <div id="map"></div>
-    <div id="bottom-image">
-      <div class="image-wrapper">
-        <div class="image-text">店舗全体図</div>
-        <img src="picture/店舗マップ２.jpg" alt="マップ下の画像" />
+      <div class="mb-3">
+        <input type="email" id="email" class="form-control" placeholder="メールアドレス">
+      </div>
+
+      <div class="mb-3">
+        <input type="password" id="password" class="form-control" placeholder="パスワード">
+      </div>
+
+      <div id="error-message" class="text-danger mb-3" style="display:none;"></div>
+
+      <button id="login-btn" class="btn w-100">ログイン</button>
+
+      <!-- 新規登録ページへ -->
+      <a href="signup.html" class="create-link">アカウントを作成</a>
     </div>
 
-  </main>
-
-  <script>
-    // 検索パネル表示切替
-    function showContent() {
-      document.getElementById('hidden-content').style.display = 'flex';
-      document.getElementById('show-search-button').style.visibility = 'hidden';
-      document.getElementById('show-back-button').style.display = 'block';
-      document.getElementById('search-panel').classList.add('active');
-      document.getElementById('search').focus();
-    }
-
-    function showbackContent() {
-      document.getElementById('hidden-content').style.display = 'none';
-      document.getElementById('show-search-button').style.visibility = 'visible';
-      document.getElementById('show-back-button').style.display = 'none';
-      document.getElementById('search-panel').classList.remove('active');
-      document.getElementById('search-results').innerHTML = "";
-      document.getElementById('search').value = "";
-    }
-  </script>
-
-  <script src="kuromoji.js-master/kuromoji.js-master/build/kuromoji.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
   <script>
-    // Firebase設定
     const firebaseConfig = {
-      apiKey: "AIzaSyAHiMCeiOFN-R4EoLTiBpeJWIUQYIrUA5M",
+      apiKey: "AIzaSyAiHMCeiOFN-R4EoLTiBpeJWlUQYIrUA5M",
       authDomain: "beacon-haptic-sim.firebaseapp.com",
       projectId: "beacon-haptic-sim",
       storageBucket: "beacon-haptic-sim.appspot.com",
@@ -74,194 +42,40 @@
       appId: "1:699174750938:web:1ade40d8ef1a30c9c0b3e3",
       measurementId: "G-4QX9T79SL7"
     };
+
     firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const auth = firebase.auth();
 
-    // --- 正規化関数 ---
-    function normalizeText(text) {
-      if (!text) return "";
-      return text
-        .normalize("NFKC")
-        .toLowerCase()
-        .replace(/[ぁ-ん]/g, s =>
-          String.fromCharCode(s.charCodeAt(0) + 0x60)
-        );
-    }
+    // ログイン
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('error-message');
+      errorMessage.style.display = "none";
+      errorMessage.textContent = "";
 
-    // --- トークナイズ関数 ---
-    let tokenizer = null;
-    function tokenizeText(text) {
-      if (!tokenizer) return [];
-      const normalized = normalizeText(text);
-      return tokenizer.tokenize(normalized).map(t => normalizeText(t.surface_form));
-    }
-
-    kuromoji.builder({ dicPath: "../kuromoji.js-master/kuromoji.js-master/dict" }).build((err, builtTokenizer) => {
-      if (err) { console.error(err); return; }
-      tokenizer = builtTokenizer;
-    });
-
-    // デバウンス検索
-    let debounceTimer;
-    document.getElementById('search').addEventListener('input', function(event) {
-      const keyword = event.target.value.trim();
-      clearTimeout(debounceTimer);
-
-      debounceTimer = setTimeout(() => {
-        if(keyword === "" || !tokenizer) {
-          document.getElementById('search-results').innerHTML = "";
-          return;
-        }
-
-        const words = tokenizeText(keyword); // 類義語なし
-        searchItems(words);
-      }, 300);
-    });
-
-    // 検索処理
-    async function searchItems(words) {
-      const resultsContainer = document.getElementById('search-results');
-      resultsContainer.innerHTML = "";
-
-      const snapshot = await db.collection("products").get();
-      let matchedItems = [];
-
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const allWords = [
-          ...tokenizeText(data.name || ""),
-          ...tokenizeText(data.category || ""),
-          ...tokenizeText(data.detail || ""),
-          ...tokenizeText((data.tags || []).join(" "))
-        ];
-
-        if(!words.every(w => allWords.includes(w))) return;
-
-
-        let score = 0;
-        words.forEach(w => {
-          if (tokenizeText(data.name || "").includes(w)) score += 10;
-          if (tokenizeText(data.category || "").includes(w)) score += 3;
-          if (tokenizeText(data.detail || "").includes(w)) score += 1;
-          if (tokenizeText((data.tags || []).join(" ")).includes(w)) score += 2;
-        });
-
-        matchedItems.push({ doc, data, score });
-      });
-
-      matchedItems.sort((a,b) => b.score - a.score);
-
-      if(matchedItems.length === 0){
-        resultsContainer.innerHTML = `<p>該当する商品が見つかりませんでした。</p>`;
-      } else {
-        matchedItems.forEach(({ doc, data }) => {
-          resultsContainer.innerHTML += `
-            <div class="search-item">
-              <a href="detail.html?id=${doc.id}" style="text-decoration:none; color:inherit;">
-                <h5 class="item-name">${data.name}</h5>
-                <p class="item-category">${data.category}</p>
-              </a>
-            </div>
-          `;
-        });
-      }
-    }
-  </script>
-
-  <script>
-    // 元の画像サイズ
-    const originalW = 2000;
-    const originalH = 1500;
-
-    // 画面サイズに応じて縮小率を変更
-    let scale;
-    if (window.innerWidth >= 992) {
-        // PC
-        scale = 0.3;  // 50%サイズ
-    } else {
-    // スマホ
-        scale = 0.5;  // 80%サイズ
-    }
-
-    // 縮小後のサイズ
-    const w = originalW * scale;
-    const h = originalH * scale;
-
-    // bounds の設定
-    const bounds = [[0, 0], [h, w]];
-
-    // マップ生成
-    const map = L.map('map', {
-        crs: L.CRS.Simple,
-        minZoom: -2,
-        maxZoom: 2,
-        zoom: 0,
-        zoomControl: false,
-        zoomSnap: 0.25,  // ← ここを追加（0.1 でもOK）
-        zoomDelta: 0.25  // ← ボタン押した時のズーム量
-    });
-
-    // 画像追加
-    L.imageOverlay('picture/店舗マップ１.jpg', bounds).addTo(map);
-
-    // 初期表示の中心
-    const initialCenter = [h / 2, w / 2];
-    const initialZoom = -0.25;
-    map.setView(initialCenter, initialZoom);
-
-
-  </script>
-
-  <script>
-      // ズームとリセットの複合コントロール
-    const ZoomResetControl = L.Control.extend({
-      options: {
-        position: 'topleft'
-      },
-
-      onAdd: function(map) {
-        // 標準 zoom コントロールの HTML を自分で作る
-        const container = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar');
-
-        // ＋ボタン
-        const zoomIn = L.DomUtil.create('a', 'leaflet-control-zoom-in', container);
-        zoomIn.innerHTML = '+';
-        zoomIn.href = '#';
-        zoomIn.onclick = function(e) {
-        e.preventDefault();
-          map.zoomIn();
-        };
-
-        // −ボタン
-        const zoomOut = L.DomUtil.create('a', 'leaflet-control-zoom-out', container);
-        zoomOut.innerHTML = '-';
-        zoomOut.href = '#';
-        zoomOut.onclick = function(e) {
-          e.preventDefault();
-          map.zoomOut();
-        };
-
-        // 🔄 リセットボタン（あなたの追加部分）
-        const resetBtn = L.DomUtil.create('a', 'leaflet-control-reset', container);
-        resetBtn.innerHTML = '&#x21BA;';
-        resetBtn.href = '#';
-        resetBtn.style.fontSize = '32px';
-        resetBtn.style.lineHeight = '38px';
-        resetBtn.style.textAlign = 'center';
-
-        resetBtn.onclick = function(e) {
-          e.preventDefault();
-          map.setView(initialCenter, initialZoom);
-        };
-
-        return container;
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        location.href = "main.html"; // 商品一覧ページへ遷移
+      } catch (e) {
+        errorMessage.style.display = "block";
+        errorMessage.textContent = "メールアドレス、もしくはパスワードに誤りがあります";
       }
     });
 
-    // 地図に追加
-    map.addControl(new ZoomResetControl());
-
-
+    // 新規登録
+    document.getElementById('signup-btn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      try {
+        await auth.createUserWithEmailAndPassword(email, password);
+        alert("登録成功");
+        location.href = "itirann.html"; // 商品一覧ページへ遷移
+      } catch (e) {
+        alert("登録失敗: " + e.message);
+      }
+    });
   </script>
 
+</body>
 </html>

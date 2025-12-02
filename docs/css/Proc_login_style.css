@@ -1,0 +1,84 @@
+body {
+  background-color: #ececec;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;        /* ← カードをさらに大きく */
+  padding: 20px;           /* ← 余白たっぷり */
+  border-radius: 25px;
+  background: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  transform: translateY(-50px); 
+}
+
+.app-title {
+  font-size: 24px;      /* ← ここが最大サイズ */
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.login-card h3 {
+  font-size: 18px;         /* ← タイトルさらに大きく */
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.form-control {
+  height: 35px;            /* ← 入力欄を大型化 */
+  font-size: 14px;
+  margin-bottom: 10px;         /* ← 文字も大きめに */
+}
+
+#login-btn {
+  height: 40px; 
+  font-size: 16px;         /* ← ボタンも大きく */
+  font-weight: bold;
+  background-color: #79c536eb;
+  outline: none;
+  border: none;
+  transition: all 0.1s ease-in-out; 
+  margin-bottom: 10px;
+}
+
+#login-btn:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+#login-btn:focus,
+#login-btn:active {
+  transform: translateY(4px); /* 下に沈む */
+  background-color: #5c8c2b;  /* 影も短くなる */
+  box-shadow: 0 1px #5c8c2b;
+}
+
+#login-btn:hover {
+  background-color: #6aa22a;
+}
+
+#error-message {
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.create-link {
+  text-align: center;
+  margin-top: 10px;
+  display: block;
+  font-size: 14px;         /* ← リンクの文字も拡大 */
+}
+
+input, textarea {
+  font-size: 16px;           /* 16px以上にする */
+  -webkit-text-size-adjust: 100% !important;  /* 自動拡大を無効化 */
+}
+
