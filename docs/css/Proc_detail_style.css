@@ -204,7 +204,6 @@ h2::after {
   display: flex;
   width: 100%;
   margin: 0 auto;
-  width: calc(100% - 20px);
 }
 
 .category-nav a {
@@ -217,6 +216,7 @@ h2::after {
   background-color: gray;
   transition: background-color 0.3s;
   border-right: 1px solid  black;/* 区切り線 */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .category-nav a:last-child {

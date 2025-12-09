@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>お気に入り一覧</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/Proc_itirann_style.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <header>
+    <h1>
+      お気に入り一覧
+      <span id="user-email" style="margin-left:10px; font-size:16px; color:#555;"></span>
+      <button id="logout-btn" class="btn btn-sm btn-danger">ログアウト</button>
+    </h1>
+    <nav class="category-nav">
+      <a href="main.html">ホーム</a>
+      <a href="itirann.html">商品一覧</a>
+      <a href="favorite.html" class="active">お気に入り</a>
+    </nav>
+  </header>
+
+  <main class="container mt-4">
+    <div id="product-list" class="row g-4">
+      <!-- お気に入り商品カードがここに入る -->
+    </div>
+  </main>
+
+  <script>
+    // Firebase 初期化
+    const firebaseConfig = {
+      apiKey: "AIzaSyAiHMCeiOFN-R4EoLTiBpeJWlUQYIrUA5M",
+      authDomain: "beacon-haptic-sim.firebaseapp.com",
+      projectId: "beacon-haptic-sim",
+      storageBucket: "beacon-haptic-sim.appspot.com",
+      messagingSenderId: "699174750938",
+      appId: "1:699174750938:web:1ade40d8ef1a30c9c0b3e3",
+      measurementId: "G-4QX9T79SL7"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+    const productList = document.getElementById("product-list");
+    const logoutBtn = document.getElementById("logout-btn");
+
+    // ログアウト
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        await auth.signOut();
+        location.href = "index.html";
+      } catch (e) {
+        alert("ログアウトに失敗しました: " + e.message);
+      }
+    });
+
+    // 認証状態チェック & お気に入り取得
+    auth.onAuthStateChanged(async user => {
+      if (!user) {
+        location.href = "index.html";
+        return;
+      }
+
+      document.getElementById('user-email').textContent = user.email;
+
+      const favSnapshot = await db.collection("users")
+                                  .doc(user.uid)
+                                  .collection("favorites")
+                                  .orderBy("createdAt", "desc")
+                                  .get();
+
+      if (favSnapshot.empty) {
+        productList.innerHTML = "<p>お気に入りはまだありません。</p>";
+        return;
+      }
+
+      favSnapshot.forEach(async favDoc => {
+        const productId = favDoc.id;
+
+        const productSnap = await db.collection("products").doc(productId).get();
+        if (!productSnap.exists) return;
+
+        const data = productSnap.data();
+
+        const cardCol = document.createElement("div");
+        cardCol.className = "col-md-6";
+
+        cardCol.innerHTML = `
+          <div class="product-card">
+            <div class="image-wrapper">
+              <img src="${data.imageUrl || 'images/no-image.png'}" alt="${data.name}">
+            </div>
+            <h5>${data.name}</h5>
+            <button class="btn btn-danger btn-unfav mt-2">お気に入り解除</button>
+          </div>
+        `;
+
+        // カードクリックで detail.html に遷移
+        cardCol.querySelector('.product-card').addEventListener('click', e => {
+          if (!e.target.classList.contains('btn-unfav')) {
+            location.href = `detail.html?id=${productId}`;
+          }
+        });
+
+        // お気に入り解除ボタン
+        const unfavBtn = cardCol.querySelector('.btn-unfav');
+        unfavBtn.addEventListener('click', async e => {
+          e.stopPropagation(); // クリック伝播を止める
+          await db.collection("users")
+                  .doc(user.uid)
+                  .collection("favorites")
+                  .doc(productId)
+                  .delete();
+          cardCol.remove();
+          alert("お気に入りから削除しました");
+        });
+
+        productList.appendChild(cardCol);
+      });
+    });
+  </script>
+</body>
+</html>

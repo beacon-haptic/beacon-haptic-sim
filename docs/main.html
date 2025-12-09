@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0, user-scalable=no">
     <title>店舗案内システム</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/Proc_style.css">
@@ -13,12 +14,13 @@
   <header>
     <h1>
       店舗案内システム
+      <span id="user-email" style="margin-left:10px; font-size:16px; color:#555;"></span>
       <button id="logout-btn" class="btn btn-sm btn-danger">ログアウト</button>
     </h1>
     <nav class="category-nav">
       <a href="index.html" class="active">ホーム</a>
       <a href="itirann.html">商品一覧</a>
-      <a href="login.html">お気に入り</a>
+      <a href="favorite.html">お気に入り</a>
     </nav>
   </header>
 
@@ -85,6 +87,19 @@
 
     const auth = firebase.auth(); // ← Firebase Auth
     const db = firebase.firestore();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        // 未ログイン → ログインページへ強制移動
+        location.href = "index.html";
+      } else {
+        // ログイン済み → メールアドレス表示
+        const emailSpan = document.getElementById('user-email');
+        if(emailSpan) {
+          emailSpan.textContent = user.email;
+        }
+      }
+    });
 
     // ログアウトボタン
     window.addEventListener('DOMContentLoaded', () => {
@@ -240,5 +255,6 @@
     });
     map.addControl(new ZoomResetControl());
   </script>
+
 </body>
 </html>

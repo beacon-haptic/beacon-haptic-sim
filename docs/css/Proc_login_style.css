@@ -82,3 +82,14 @@ input, textarea {
   -webkit-text-size-adjust: 100% !important;  /* 自動拡大を無効化 */
 }
 
+.toggle-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 22px;
+  color: #555;
+  user-select: none;
+}
+

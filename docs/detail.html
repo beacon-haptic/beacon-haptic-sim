@@ -1,17 +1,58 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>商品詳細</title>
+
+  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/Proc_detail_style.css">
 
-  <script type="module">
-    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <header>
+    <h1>商品情報
+      <span id="user-email" style="margin-left:10px; font-size:16px; color:#555;"></span>
+      <button id="logout-btn" class="btn btn-sm btn-danger">ログアウト</button>
+    </h1>
+    <nav class="category-nav">
+      <a href="main.html">ホーム</a>
+      <a href="itirann.html">商品一覧</a>
+      <a href="favorite.html">お気に入り</a>
+    </nav>
+  </header>
 
+  <main class="detail-container">
+    <div class="detail-card">
+      <!-- 左側：画像＋説明 -->
+      <div class="detail-left">
+        <div class="image-wrapper">
+          <img id="image" src="images/no-image.png" alt="商品画像" class="product-image">
+        </div>
+        <p class="product-detail"><strong>説明:</strong> <span id="detail"></span></p>
+      </div>
+
+      <!-- 右側：商品情報 -->
+      <div class="detail-right">
+        <h2 class="product-title"><strong>商品名:</strong><br><span id="name"></span></h2>
+        <p class="product-price"><strong>価格:</strong> <span id="price"></span>円</p>
+        <p class="product-category"><strong>カテゴリ:</strong> <span id="category"></span></p>
+        <div class="action-buttons">
+          <button class="btn btn-dark">ナビを開始</button>
+          <button id="favButton" class="btn btn-outline-secondary">お気に入りに追加</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Firebase 初期化
     const firebaseConfig = {
-      apiKey: "AIzaSyAHiMCeiOFN-R4EoLTiBpeJWIUQYIrUA5M",
+      apiKey: "AIzaSyAiHMCeiOFN-R4EoLTiBpeJWlUQYIrUA5M",
       authDomain: "beacon-haptic-sim.firebaseapp.com",
       projectId: "beacon-haptic-sim",
       storageBucket: "beacon-haptic-sim.appspot.com",
@@ -19,78 +60,94 @@
       appId: "1:699174750938:web:1ade40d8ef1a30c9c0b3e3",
       measurementId: "G-4QX9T79SL7"
     };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    // Auth 永続化
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-    // URLのクエリパラメータからidを取得
+    // 商品ID取得
     const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
+    const productId = params.get("id");
 
-    async function loadProduct() {
-      if (!id) {
-        document.getElementById('content').textContent = "商品IDが指定されていません。";
-        return;
-      }
-
-      const docRef = doc(db, "products", id);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        document.getElementById('name').textContent = data.name || "";
-        document.getElementById('category').textContent = data.category || "";
-        document.getElementById('price').textContent = data.price || "";
-        document.getElementById('detail').textContent = data.detail || "";
-        if(data.imageUrl){
-          document.getElementById('image').src = data.imageUrl;
-          document.getElementById('image').alt = data.name;
-        }
+    // お気に入りボタン
+    const favButton = document.getElementById("favButton");
+    function setFavorited(isFav) {
+      if (isFav) {
+        favButton.textContent = "お気に入り解除 ✔";
+        favButton.classList.remove("btn-outline-secondary");
+        favButton.classList.add("btn-success");
       } else {
-        document.getElementById('content').textContent = "該当する商品が見つかりませんでした。";
+        favButton.textContent = "お気に入りに追加";
+        favButton.classList.remove("btn-success");
+        favButton.classList.add("btn-outline-secondary");
       }
     }
 
-    window.onload = loadProduct;
+    // ログアウトボタン
+    const logoutBtn = document.getElementById('logout-btn');
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        await auth.signOut();
+        location.href = "index.html";
+      } catch (e) {
+        alert("ログアウトに失敗しました: " + e.message);
+      }
+    });
+
+    // ページ初期化：ログイン確認＋商品読み込み＋お気に入り状態
+    auth.onAuthStateChanged(async user => {
+      if (!user) {
+        location.href = "index.html";
+        return;
+      }
+
+      document.getElementById('user-email').textContent = user.email;
+
+      // 商品情報読み込み
+      if (productId) {
+        const snap = await db.collection("products").doc(productId).get();
+        if (snap.exists) {
+          const data = snap.data();
+          document.getElementById("name").textContent = data.name || "";
+          document.getElementById("category").textContent = data.category || "";
+          document.getElementById("price").textContent = data.price || "";
+          document.getElementById("detail").textContent = data.detail || "";
+          if (data.imageUrl) document.getElementById("image").src = data.imageUrl;
+        }
+      }
+
+      // お気に入り状態確認
+      const favRef = db.collection("users").doc(user.uid)
+                       .collection("favorites").doc(productId);
+      const favSnap = await favRef.get();
+      if (favSnap.exists) setFavorited(true);
+    });
+
+    // お気に入りボタン処理
+    favButton.addEventListener("click", async () => {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("ログインが必要です");
+        location.href = "index.html";
+        return;
+      }
+
+      const favRef = db.collection("users").doc(user.uid)
+                       .collection("favorites").doc(productId);
+      const snap = await favRef.get();
+
+      if (snap.exists) {
+        await favRef.delete();
+        setFavorited(false);
+        alert("お気に入りを解除しました");
+      } else {
+        await favRef.set({ saved: true, createdAt: new Date() });
+        setFavorited(true);
+        alert("お気に入りに追加しました！");
+      }
+    });
   </script>
-</head>
-<body>
-  <header>
-      <h1>商品情報</h1>
-      <nav class="category-nav">
-        <a href="main.html" class="active">ホーム</a>
-        <a href="itirann.html">商品一覧</a>
-        <a href="#">お気に入り</a>
-      </nav>
-  </header>
-<main class="detail-container">
-  <div class="detail-card">
-    <!-- 上：画像 -->
-    <div class="detail-left">
-      <div class="image-wrapper">
-        <img id="image" src="images/no-image.png" alt="商品画像" class="product-image">
-      </div>  
-      <p class="product-detail"><strong>説明:</strong> <span id="detail"></span></p>
-    </div>
-
-    <!-- 下：商品情報 -->
-    <div class="detail-right">
-      <h2 class="product-title">
-        <strong class="product-name">商品名:</strong><br>
-        <span id="name"></span>
-      </h2>
-      <p class="product-price"><strong>価格:</strong> <span id="price"></span>円</p>
-      <p class="product-category"><strong>カテゴリ:</strong> <span id="category"></span></p>
-
-      <div class="action-buttons">
-        <button class="btn btn-dark">ナビを開始</button>
-        <button class="btn btn-outline-secondary">お気に入りに追加</button>
-      </div>
-    </div>
-  </div>
-</main>
-<div class="h2-background"></div>
-<div class="h2-background"></div>
-<div class="h2-background"></div>
 </body>
 </html>

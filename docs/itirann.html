@@ -9,11 +9,14 @@
 </head>
 <body>
    <header>
-    <h1>商品一覧</h1>
+    <h1>
+      商品一覧
+      <button id="logout-btn" class="btn btn-sm btn-danger">ログアウト</button>
+    </h1>
     <nav class="category-nav">
       <a href="main.html">ホーム</a>
       <a href="itirann.html" class="active">商品一覧</a>
-      <a href="#">お気に入り</a>
+      <a href="favorite.html">お気に入り</a>
     </nav>   
    </header> 
    <div class="back-color">
@@ -35,10 +38,11 @@
 
 <!-- Firebase互換版 -->
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 <script>
   const firebaseConfig = {
-      apiKey: "AIzaSyAHiMCeiOFN-R4EoLTiBpeJWIUQYIrUA5M",
+      apiKey: "AIzaSyAiHMCeiOFN-R4EoLTiBpeJWlUQYIrUA5M",
       authDomain: "beacon-haptic-sim.firebaseapp.com",
       projectId: "beacon-haptic-sim",
       storageBucket: "beacon-haptic-sim.appspot.com",
@@ -49,8 +53,32 @@
 
   // Firebase初期化（互換版）
   firebase.initializeApp(firebaseConfig);
+
+  const auth = firebase.auth();
   const db = firebase.firestore();
 
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      location.href = "index.html";   // ← 未ログインならログインページへ
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async () => {
+        try {
+          await auth.signOut();
+          location.href = "index.html"; // ログアウト後ログインページへ
+        } catch (e) {
+          alert("ログアウトに失敗しました: " + e.message);
+        }
+      });
+    }
+
+
+    loadProducts();
+  });
   // Firestoreから商品を取得してHTMLに追加
   async function loadProducts() {
     const productContainer = document.getElementById("product-list");

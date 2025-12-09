@@ -112,7 +112,7 @@ h5{
 
 .category-nav {
   display: flex;
-  width: calc(100% - 20px);
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -126,6 +126,7 @@ h5{
   background-color: gray;
   transition: background-color 0.3s;
   border-right: 1px solid black; /* 区切り線 */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .category-nav a:last-child {
@@ -191,6 +192,13 @@ h5{
   .product-card {
     width: 100%; /* 親の幅いっぱい */
   }
+}
+
+#logout-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: wheat;
 }
 
 

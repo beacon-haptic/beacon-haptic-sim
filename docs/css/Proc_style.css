@@ -177,7 +177,7 @@ button{
   border-radius: 6px;
   margin-bottom: 10px;
   transition: background-color 0.2s;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
 }
 
 .search-item:hover {
@@ -199,9 +199,11 @@ button{
   width: 95%;
   margin: 30px auto 0 auto;
   z-index: 0;  
-  border: 6px solid rgb(137, 136, 136);  /* 枠線の太さと色 */
-  border-radius: 10px; 
+  border: 6px solid rgb(137, 136, 136);  /* 枠線の太さと色 */ 
   outline: none !important;  
+  border-radius: 15px;            /* 角を丸く（お好み） */
+  overflow: hidden;               /* 角丸に影を合わせる */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25); 
 }
 
 /* 初期状態：スマホ（小さい画面）では表示 */
@@ -250,7 +252,7 @@ button{
     /* カテゴリナビ */
     .category-nav {
       display: flex;
-      width: calc(100% - 20px);
+      width: 100%;
       margin: 0 auto;
      }
 
@@ -264,6 +266,7 @@ button{
       background-color: gray;
       transition: background-color 0.3s;
       border-right: 1px solid black; /* 区切り線 */
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     }
 
     .category-nav a:last-child {
@@ -338,7 +341,7 @@ button{
 
   /* --- 地図 --- */
   #map {
-    height: 80vh !important;   /* PCでは少し低く */
+    height: 70vh !important;   /* PCでは少し低く */
     width: 70vw !important;    /* 横幅を 70% にする */
     margin: 60px auto 0 auto !important;  /* 上の余白を調整 */
     border-radius: 15px;
