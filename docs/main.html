@@ -14,7 +14,6 @@
   <header>
     <h1>
       店舗案内システム
-      <span id="user-email" style="margin-left:10px; font-size:16px; color:#555;"></span>
       <button id="logout-btn" class="btn btn-sm btn-danger">ログアウト</button>
     </h1>
     <nav class="category-nav">
@@ -85,34 +84,37 @@
     };
     firebase.initializeApp(firebaseConfig);
 
-    const auth = firebase.auth(); // ← Firebase Auth
+    const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // Auth状態監視
     auth.onAuthStateChanged(user => {
+      const logoutBtn = document.getElementById('logout-btn');
+
       if (!user) {
         // 未ログイン → ログインページへ強制移動
         location.href = "index.html";
       } else {
-        // ログイン済み → メールアドレス表示
-        const emailSpan = document.getElementById('user-email');
-        if(emailSpan) {
-          emailSpan.textContent = user.email;
+        // ゲストログインなら「ログイン」に変更
+        if (user.isAnonymous) {
+          logoutBtn.textContent = "ログイン";
+          logoutBtn.classList.remove("btn-danger");
+          logoutBtn.classList.add("btn-secondary");
+          logoutBtn.onclick = () => { location.href = "index.html"; };
+        } else {
+          // 通常ユーザー
+          logoutBtn.textContent = "ログアウト";
+          logoutBtn.classList.remove("btn-secondary");
+          logoutBtn.classList.add("btn-danger");
+          logoutBtn.onclick = async () => {
+            try {
+              await auth.signOut();
+              location.href = "index.html";
+            } catch (e) {
+              alert("ログアウトに失敗しました: " + e.message);
+            }
+          };
         }
-      }
-    });
-
-    // ログアウトボタン
-    window.addEventListener('DOMContentLoaded', () => {
-      const logoutBtn = document.getElementById('logout-btn');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
-          try {
-            await auth.signOut();        // Firebaseサインアウト
-            location.href = "index.html"; // ログインページへ遷移
-          } catch (e) {
-            alert("ログアウトに失敗しました: " + e.message);
-          }
-        });
       }
     });
 

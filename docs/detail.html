@@ -15,8 +15,8 @@
 </head>
 <body>
   <header>
-    <h1>商品情報
-      <span id="user-email" style="margin-left:10px; font-size:16px; color:#555;"></span>
+    <h1>
+      商品情報
       <button id="logout-btn" class="btn btn-sm btn-danger">ログアウト</button>
     </h1>
     <nav class="category-nav">
@@ -71,8 +71,10 @@
     const params = new URLSearchParams(window.location.search);
     const productId = params.get("id");
 
-    // お気に入りボタン
     const favButton = document.getElementById("favButton");
+    const logoutBtn = document.getElementById('logout-btn');
+
+    // お気に入りボタン表示更新
     function setFavorited(isFav) {
       if (isFav) {
         favButton.textContent = "お気に入り解除 ✔";
@@ -85,25 +87,45 @@
       }
     }
 
-    // ログアウトボタン
-    const logoutBtn = document.getElementById('logout-btn');
-    logoutBtn.addEventListener("click", async () => {
-      try {
-        await auth.signOut();
-        location.href = "index.html";
-      } catch (e) {
-        alert("ログアウトに失敗しました: " + e.message);
-      }
-    });
-
-    // ページ初期化：ログイン確認＋商品読み込み＋お気に入り状態
+    // ページ初期化
     auth.onAuthStateChanged(async user => {
       if (!user) {
+        // 未ログイン時はログインページへ
         location.href = "index.html";
         return;
       }
 
-      document.getElementById('user-email').textContent = user.email;
+      if (user.isAnonymous) {
+        // ゲストの場合
+        favButton.disabled = true;
+        favButton.textContent = "ゲストはお気に入り不可";
+        favButton.classList.remove("btn-outline-secondary");
+        favButton.classList.add("btn-secondary");
+
+        logoutBtn.textContent = "ログイン";
+        logoutBtn.onclick = () => {
+          location.href = "index.html"; // ログインページへ
+        };
+      } else {
+        // 通常ユーザーの場合
+        logoutBtn.textContent = "ログアウト";
+        logoutBtn.onclick = async () => {
+          try {
+            await auth.signOut();
+            location.href = "index.html";
+          } catch (e) {
+            alert("ログアウトに失敗しました: " + e.message);
+          }
+        };
+
+        // お気に入り状態確認
+        if (productId) {
+          const favRef = db.collection("users").doc(user.uid)
+                           .collection("favorites").doc(productId);
+          const favSnap = await favRef.get();
+          if (favSnap.exists) setFavorited(true);
+        }
+      }
 
       // 商品情報読み込み
       if (productId) {
@@ -117,20 +139,13 @@
           if (data.imageUrl) document.getElementById("image").src = data.imageUrl;
         }
       }
-
-      // お気に入り状態確認
-      const favRef = db.collection("users").doc(user.uid)
-                       .collection("favorites").doc(productId);
-      const favSnap = await favRef.get();
-      if (favSnap.exists) setFavorited(true);
     });
 
     // お気に入りボタン処理
     favButton.addEventListener("click", async () => {
       const user = auth.currentUser;
-      if (!user) {
-        alert("ログインが必要です");
-        location.href = "index.html";
+      if (!user || user.isAnonymous) {
+        alert("ゲストはお気に入り登録できません。ログインしてください。");
         return;
       }
 

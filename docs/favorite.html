@@ -17,7 +17,6 @@
   <header>
     <h1>
       お気に入り一覧
-      <span id="user-email" style="margin-left:10px; font-size:16px; color:#555;"></span>
       <button id="logout-btn" class="btn btn-sm btn-danger">ログアウト</button>
     </h1>
     <nav class="category-nav">
@@ -53,16 +52,6 @@
     const productList = document.getElementById("product-list");
     const logoutBtn = document.getElementById("logout-btn");
 
-    // ログアウト
-    logoutBtn.addEventListener("click", async () => {
-      try {
-        await auth.signOut();
-        location.href = "index.html";
-      } catch (e) {
-        alert("ログアウトに失敗しました: " + e.message);
-      }
-    });
-
     // 認証状態チェック & お気に入り取得
     auth.onAuthStateChanged(async user => {
       if (!user) {
@@ -70,8 +59,32 @@
         return;
       }
 
-      document.getElementById('user-email').textContent = user.email;
+      // ゲストログインの場合はログアウトボタンを「ログイン」に変更
+      if (user.isAnonymous) {
+        logoutBtn.textContent = "ログイン";
+        logoutBtn.classList.remove("btn-danger");
+        logoutBtn.classList.add("btn-secondary");
+        logoutBtn.onclick = () => {
+          location.href = "index.html";
+        };
+        productList.innerHTML = "<p>ゲストユーザーはお気に入り機能を使用できません。</p>";
+        return;
+      }
 
+      // 通常ユーザーの場合
+      logoutBtn.textContent = "ログアウト";
+      logoutBtn.classList.remove("btn-secondary");
+      logoutBtn.classList.add("btn-danger");
+      logoutBtn.onclick = async () => {
+        try {
+          await auth.signOut();
+          location.href = "index.html";
+        } catch (e) {
+          alert("ログアウトに失敗しました: " + e.message);
+        }
+      };
+
+      // Firestoreからお気に入りを取得
       const favSnapshot = await db.collection("users")
                                   .doc(user.uid)
                                   .collection("favorites")
@@ -114,7 +127,7 @@
         // お気に入り解除ボタン
         const unfavBtn = cardCol.querySelector('.btn-unfav');
         unfavBtn.addEventListener('click', async e => {
-          e.stopPropagation(); // クリック伝播を止める
+          e.stopPropagation();
           await db.collection("users")
                   .doc(user.uid)
                   .collection("favorites")

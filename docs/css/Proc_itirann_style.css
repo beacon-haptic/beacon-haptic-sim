@@ -196,10 +196,35 @@ h5{
 
 #logout-btn {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    color: wheat;
+    top: 15px;
+    right: 15px;
+    background-color: red;   /* h1 と同じ背景色 */
+    color: white;                /* h1 と同じ文字色 */
+    font-size: 18px;
+    padding: 6px 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
+#logout-btn:hover {
+    opacity: 0.85; 
+}
+
+
+/* スクロールトップボタンのスタイル */
+#scroll-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: none;
+  font-size: 36px;
+  border: none;
+  background-color: #0f6f6f91;
+  color: white;
+  padding: 15px 23px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
 
 
 

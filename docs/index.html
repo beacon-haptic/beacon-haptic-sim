@@ -31,6 +31,10 @@
 
     <button id="login-btn" class="btn w-100 mt-2">ログイン</button>
     <button id="signup-btn" class="btn w-100 mt-2" style="background:#6ca8ff;">新規登録</button>
+    <button id="guest-btn" class="btn w-100 mt-3" style="background:#8e8e8e; color:white;">
+      ゲストとして入室
+    </button>
+
 
   </div>
 
@@ -112,6 +116,19 @@
       togglePassword.textContent = isHidden ? "👁‍🗨" : "ー";
     });
 
+  </script>
+
+  <script>
+    document.getElementById('guest-btn').addEventListener('click', async () => {
+      clearErrors();
+
+      try {
+        await auth.signInAnonymously();  // ← Firebase Anonymous Auth
+        location.href = "main.html";     // ログイン後の画面へ
+      } catch (e) {
+        alert("ゲスト入室に失敗しました: " + e.message);
+      }
+    });
   </script>
 
 </body>
