@@ -39,7 +39,7 @@
   <div id="bottom-image">
     <div class="image-wrapper">
       <div class="image-text">店舗全体図</div>
-      <img src="picture/店舗マップ１.jpg" alt="マップ下の画像" />
+      <img src="picture/教室マップ２.jpg" alt="マップ下の画像" />
     </div>
   </div>
 </main>
@@ -192,7 +192,7 @@ const w=originalW*scale, h=originalH*scale;
 const bounds=[[0,0],[h,w]];
 
 const map = L.map('map',{crs:L.CRS.Simple, minZoom:-2,maxZoom:2, zoomSnap:0.25, zoomDelta:0.25, zoomControl:false});
-L.imageOverlay('picture/仮マップ.jpg', bounds).addTo(map);
+L.imageOverlay('picture/教室マップ１.jpg', bounds).addTo(map);
 const initialCenter=[h/2,w/2], initialZoom=-0.25;
 map.setView(initialCenter,initialZoom);
 
