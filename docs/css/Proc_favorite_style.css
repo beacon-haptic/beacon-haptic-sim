@@ -1,0 +1,162 @@
+/* =========================
+   共通スタイル
+========================= */
+
+/* 背景色 */
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: #f7f8fa;
+  font-family: 'Arial', sans-serif;
+}
+
+/* ヘッダー */
+h1 {
+  background-color: #0f6f6f;
+  color: wheat;
+  margin-bottom: 0;
+  text-align: center;
+  border-bottom: 5px solid #79c536eb;
+  font-size: 60px;
+  padding: 20px 0;
+  position: relative;
+}
+
+/* ログアウトボタン */
+#logout-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: wheat;
+}
+
+/* カテゴリナビ */
+.category-nav {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.category-nav a {
+  flex: 1;
+  text-align: center;
+  padding: 15px 0;
+  text-decoration: none;
+  font-size: 36px;
+  color: white;
+  background-color: gray;
+  transition: background-color 0.3s;
+  border-right: 1px solid black;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.category-nav a:last-child {
+  border-right: none;
+  border-bottom-right-radius: 24px;
+}
+
+.category-nav a:first-child {
+  border-bottom-left-radius: 24px;
+}
+
+/* 現在ページ */
+.category-nav a.active {
+  background-color: #79c536eb;
+  color: white;
+  font-weight: bold;
+}
+
+/* =========================
+   商品カード
+========================= */
+#favorites-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.favorite-card {
+  border: 3px solid black;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: rgb(249, 244, 238);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: 0.3s;
+}
+
+.favorite-card:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.favorite-card:active {
+  opacity: 0.8;
+  transform: scale(0.98);
+}
+
+/* 画像 */
+.favorite-card .image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+  margin-bottom: 10px;
+}
+
+.favorite-card img {
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+}
+
+/* 商品タイトル */
+.favorite-card h5 {
+  font-size: 28px;
+  margin: 0 0 10px 0;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 2.4em;
+  text-align: center;
+}
+
+/* 商品情報 */
+.favorite-card p {
+  margin: 5px 0;
+  text-align: center;
+}
+
+/* ボタン */
+.favorite-card .btn {
+  margin-top: auto;
+  width: 100%;
+  font-size: 18px;
+}
+
+/* =========================
+   レスポンシブ
+========================= */
+@media (min-width: 992px) {
+
+  h1 {
+    font-size: 40px;
+    padding: 10px 0;
+    border-bottom-width: 4px;
+  }
+
+  .category-nav a {
+    font-size: 22px;
+    padding: 10px 0;
+  }
+
+  #favorites-list .favorite-card {
+    width: calc(33.333% - 1rem);
+  }
+}

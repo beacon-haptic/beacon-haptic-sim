@@ -42,7 +42,7 @@
         <p class="product-price"><strong>価格:</strong> <span id="price"></span>円</p>
         <p class="product-category"><strong>カテゴリ:</strong> <span id="category"></span></p>
         <div class="action-buttons">
-          <button class="btn btn-dark">ナビを開始</button>
+          <button id="startNav" class="btn btn-dark">ナビを開始</button>
           <button id="favButton" class="btn btn-outline-secondary">お気に入りに追加</button>
         </div>
       </div>
@@ -163,6 +163,53 @@
         alert("お気に入りに追加しました！");
       }
     });
+
+
+    // ナビ開始ボタン
+const startNavBtn = document.getElementById("startNav");
+
+startNavBtn.addEventListener("click", async () => {
+  if (!navigator.bluetooth) {
+    alert("このブラウザはBluetoothに対応していません");
+    return;
+  }
+
+  try {
+    startNavBtn.disabled = true;
+    startNavBtn.textContent = "ビーコンスキャン中…";
+
+    // 例: 3つのビーコンIDを想定
+    const beaconIds = ["1","2","3"];
+
+    // Bluetoothスキャン
+    const device = await navigator.bluetooth.requestLEScan({
+      acceptAllAdvertisements: true
+    });
+
+    navigator.bluetooth.addEventListener('advertisementreceived', event => {
+      const beaconId = event.device.name || event.device.id;
+      if (!beaconIds.includes(beaconId)) return;
+
+      const rssi = event.rssi;
+      const distance = Math.pow(10, ( -69 - rssi ) / (10 * 2)); // RSSI→距離（簡易）
+
+      // Firestoreに書き込み
+      db.collection("user_positions").doc("current").set({
+        [beaconId]: distance,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    });
+
+    alert("ビーコンスキャンを開始しました");
+
+  } catch (e) {
+    console.error(e);
+    alert("スキャンに失敗しました: " + e.message);
+    startNavBtn.disabled = false;
+    startNavBtn.textContent = "ナビを開始";
+  }
+});
+
   </script>
 </body>
 </html>
