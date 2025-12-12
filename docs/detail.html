@@ -165,50 +165,20 @@
     });
 
 
-    // ナビ開始ボタン
-const startNavBtn = document.getElementById("startNav");
 
-startNavBtn.addEventListener("click", async () => {
-  if (!navigator.bluetooth) {
-    alert("このブラウザはBluetoothに対応していません");
-    return;
-  }
+    // ↓ ここを requestLEScan の代わりに書き換え
+    const startNavBtn = document.getElementById("startNav");
 
-  try {
-    startNavBtn.disabled = true;
-    startNavBtn.textContent = "ビーコンスキャン中…";
-
-    // 例: 3つのビーコンIDを想定
-    const beaconIds = ["1","2","3"];
-
-    // Bluetoothスキャン
-    const device = await navigator.bluetooth.requestLEScan({
-      acceptAllAdvertisements: true
-    });
-
-    navigator.bluetooth.addEventListener('advertisementreceived', event => {
-      const beaconId = event.device.name || event.device.id;
-      if (!beaconIds.includes(beaconId)) return;
-
-      const rssi = event.rssi;
-      const distance = Math.pow(10, ( -69 - rssi ) / (10 * 2)); // RSSI→距離（簡易）
-
-      // Firestoreに書き込み
-      db.collection("user_positions").doc("current").set({
-        [beaconId]: distance,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }, { merge: true });
-    });
-
-    alert("ビーコンスキャンを開始しました");
-
-  } catch (e) {
-    console.error(e);
-    alert("スキャンに失敗しました: " + e.message);
-    startNavBtn.disabled = false;
-    startNavBtn.textContent = "ナビを開始";
+startNavBtn.addEventListener("click", () => {
+  // 現在の productId を URL パラメータに渡す
+  if(productId){
+    window.location.href = `main.html?targetId=${productId}`;
+  } else {
+    alert("商品IDが取得できません");
   }
 });
+
+
 
   </script>
 </body>

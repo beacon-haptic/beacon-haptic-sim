@@ -172,7 +172,7 @@ async function searchItems(words){
     matchedItems.forEach(({doc,data})=>{
       resultsContainer.innerHTML += `
       <div class="search-item">
-        <a href="#" onclick="navigateToProduct('${doc.id}')" style="text-decoration:none;color:inherit;">
+        <a href="detail.html?id=${doc.id}"  style="text-decoration:none;color:inherit;">
           <h5>${data.name}</h5>
           <p>${data.category}</p>
         </a>
@@ -264,20 +264,7 @@ function updateUserWithBeacons(beaconDistances) {
   updateUserPosition(user.x, user.y);
 }
 
-// =======================
-// ここからは既存マップ機能をそのまま
-// =======================
-
-// 既存のマップ初期化やズーム・リセットは消さない
-// 既存の商品ナビやマップクリックもそのまま
-
-
-
-// Geolocationでユーザー位置を自動更新
-// 初期位置はマップ中央
-let userX = originalW / 2;
-let userY = originalH / 2;
-updateUserPosition(userX, userY);
+updateUserPosition(1121, 226);
 
 // ビーコン距離データを取得（例）
 const beaconDistances = [
@@ -303,7 +290,10 @@ window.navigateToProduct = async function(id){
   if(!userPos){ alert("現在位置を取得できません"); return; }
   if(routeLine) map.removeLayer(routeLine);
   routeLine = L.polyline([userPos,target],{color:'red',weight:4}).addTo(map);
-  map.fitBounds([userPos,target],{padding:[40,40]});
+  map.fitBounds([userPos,target],{padding:[40,40],
+  maxZoom: initialZoom +0.2,
+  animate: true,              
+  duration: 0.5 });
 };
 
 // マップクリックで座標確認
@@ -332,6 +322,17 @@ db.collection("user_positions").doc("current")
       updateUserWithBeacons(beaconDistances);
     }
   });
+
+
+  // URLパラメータから targetId を取得
+const params = new URLSearchParams(window.location.search);
+const targetId = params.get("targetId");
+
+if(targetId){
+  // navigateToProduct関数を呼び出してナビ開始
+  window.navigateToProduct(targetId);
+}
+
 
 </script>
 
